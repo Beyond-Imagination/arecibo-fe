@@ -4,8 +4,8 @@ import { Inter } from 'next/font/google'
 import './globals.css'
 import React from 'react'
 
-import Header from '@/app/components/header'
-import Menu from '@/app/components/menu'
+import Header from '@/components/header'
+import Menu from '@/components/menu'
 
 const inter = Inter({ subsets: ['latin'] })
 
