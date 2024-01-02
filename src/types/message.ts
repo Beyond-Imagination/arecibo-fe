@@ -24,3 +24,16 @@ export interface IGetMessageListResponse {
         limit: number
     }
 }
+
+export interface IPostMessageRequest {
+    body: {
+        title: string
+        content: string
+    }
+    uri: {
+        planetId: string
+    }
+    secret: {
+        token: string
+    }
+}
