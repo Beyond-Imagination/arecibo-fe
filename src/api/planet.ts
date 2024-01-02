@@ -1,16 +1,14 @@
 import { QueryFunctionContext } from 'react-query'
 
 import { SERVER_URL } from '@/config'
-import { ICredential, IGetPlanetsResponse } from '@/types'
+import { IAlien, IGetPlanetsResponse } from '@/types'
 
-export async function getPlanets({ queryKey }: QueryFunctionContext<[string, ICredential]>): Promise<IGetPlanetsResponse> {
-    const [, { token }] = queryKey
-    // TODO: use beUrl
+export async function getPlanets({ queryKey }: QueryFunctionContext<[string, IAlien]>): Promise<IGetPlanetsResponse> {
+    const [, alien] = queryKey
     const res = await fetch(`${SERVER_URL}/v1/planets`, {
         method: 'GET',
         headers: {
-            // TODO: token change
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${alien.jwt}`,
         },
     })
 
