@@ -11,6 +11,7 @@ job("[FE]-develop") {
         shellScript {
             content = """
                 yarn install
+                cp .env.development .env
                 yarn build
                 cp -r out ${'$'}JB_SPACE_FILE_SHARE_PATH/out
             """
