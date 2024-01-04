@@ -1,5 +1,6 @@
 'use client'
 
+import Link from 'next/link'
 import { useQuery } from 'react-query'
 import { useSearchParams } from 'next/navigation'
 
@@ -11,7 +12,7 @@ import { useAlien } from '@/providers'
 export default function Page() {
     const searchParams = useSearchParams()
     const planetId = searchParams.get('planetId') || ''
-    const title = searchParams.get('title')
+    const title = searchParams.get('title') || 'none'
     // TODO: query 정보 내부에서 state로 관리
     const query = {
         page: searchParams.get('page') || '1',
@@ -28,17 +29,16 @@ export default function Page() {
         })?.data || ({} as IGetMessageListResponse)
 
     // TODO: add sort button
-    // TODO: add button Action
     return (
         <div className="flex flex-col justify-start w-full min-h-screen p-12">
             <div className="flex flex-row justify-between w-full">
                 <p className="text-4xl">{title}</p>
-                <button
-                    type="button"
-                    className="inline-block rounded-full border-2 border-[#EFF8F5] px-6 text-xs font-medium leading-normal text-[#3E3E3E] bg-[#EFF8F5]"
+                <Link
+                    href={`/messages/create?planetId=${planetId}&title=${title}`}
+                    className="rounded-full border-2 border-[#EFF8F5] px-6 text-xs font-medium my-1 text-[#3E3E3E] bg-[#EFF8F5]"
                 >
-                    Create a post
-                </button>
+                    <div className="my-2">Create a Post</div>
+                </Link>
             </div>
             <MessageList key={planetId} data={data} />
         </div>

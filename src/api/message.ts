@@ -18,7 +18,7 @@ export async function getMessages({ queryKey }: QueryFunctionContext<[string, st
     return res.json()
 }
 
-export async function postMesage(request: IPostMessageRequest): Promise<void> {
+export async function postMessage(request: IPostMessageRequest): Promise<void> {
     const res = await fetch(`${SERVER_URL}/v1/planets/${request.uri.planetId}/message`, {
         method: 'POST',
         headers: {
