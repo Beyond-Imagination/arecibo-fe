@@ -12,7 +12,12 @@ import { useAlien } from '@/providers'
 export default function Page() {
     const searchParams = useSearchParams()
     const planetId = searchParams.get('planetId') || ''
-    const title = searchParams.get('title') || 'none'
+    const title = searchParams.get('title') || ''
+
+    if (planetId === '' || title === '') {
+        throw new Error('400 Bad Request')
+    }
+
     // TODO: query 정보 내부에서 state로 관리
     const query = {
         page: searchParams.get('page') || '1',

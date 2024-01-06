@@ -16,7 +16,11 @@ type Inputs = {
 export default function Create() {
     const searchParams = useSearchParams()
     const planetId = searchParams.get('planetId') || ''
-    const title = searchParams.get('title') || 'none'
+    const title = searchParams.get('title') || ''
+
+    if (planetId === '' || title === '') {
+        throw new Error('400 Bad Request')
+    }
 
     const alien = useAlien()
     const {
