@@ -35,7 +35,7 @@ export default function Message({ message }: PlanetProps) {
             </div>
             <div className="pt-1">
                 <h5 className="text-2xl font-medium leading-tight text-[#727272] dark:text-neutral-300">{message.title}</h5>
-                <p className="text-l font-medium text-[#727272] dark:text-neutral-300">{message.content}</p>
+                <div className="text-l font-medium text-[#727272] dark:text-neutral-300" dangerouslySetInnerHTML={{ __html: message.content }}></div>
             </div>
             <div className="flex flex-row justify-start pt-3">
                 <div className="pe-4">

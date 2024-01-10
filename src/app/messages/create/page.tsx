@@ -3,6 +3,8 @@
 import { useMutation, useQueryClient } from 'react-query'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useForm, SubmitHandler } from 'react-hook-form'
+import ReactQuill from 'react-quill'
+import 'react-quill/dist/quill.snow.css'
 
 import { postMessage } from '@/api'
 import { IPostMessageRequest } from '@/types'
@@ -26,6 +28,8 @@ export default function Create() {
     const {
         register,
         handleSubmit,
+        setValue,
+        trigger,
         formState: { isSubmitting, errors },
     } = useForm<Inputs>()
     const errorMessage: string | undefined = errors?.title?.message || errors?.content?.message
@@ -58,26 +62,62 @@ export default function Create() {
         mutation.mutate(request)
     }
 
-    // TODO: add text editor
+    const handleChange = (value: string) => {
+        setValue('content', value)
+        trigger('content')
+    }
+
+    // toolbar options
+    const modules = {
+        toolbar: [
+            [{ header: [1, 2, 3, 4, false] }, { font: [] }],
+            [{ align: [] }, 'bold', 'italic', 'underline', 'strike'],
+            [{ color: [] }, { background: [] }],
+            [{ indent: '+1' }, { indent: '-1' }, { list: 'ordered' }, { list: 'bullet' }],
+            ['blockquote', 'code-block'],
+            ['link', 'image'],
+        ],
+    }
+    const formats = [
+        'header',
+        'font',
+        'align',
+        'bold',
+        'italic',
+        'underline',
+        'strike',
+        'color',
+        'background',
+        'indent',
+        'list',
+        'bullet',
+        'blockquote',
+        'code-block',
+        'link',
+        'image',
+    ]
+
     return (
         <div className="flex flex-col justify-start w-full min-h-screen p-12">
-            <p className="text-4xl">{title}</p>
-            <div className="block w-full p-6 my-3 bg-white rounded-lg dark:bg-neutral-700">
+            <p className="text-4xl p-2">{title}</p>
+            <div className="block w-full p-6 my rounded-lg bg-white dark:bg-neutral-700">
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <div className="p-2">
                         <input
                             id="create/title"
-                            className="border rounded w-full h-10 p-1 dark:text-[#727272]"
+                            className="border rounded w-full h-10 p-1 border-[#CCCCCC] dark:text-[#3E3E3E]"
                             placeholder="Title"
                             {...register('title', { required: 'title is required' })}
                         />
                     </div>
-                    <div className="p-2">
-                        <textarea
-                            id="create/content"
-                            className="border rounded w-full h-64 p-2 dark:text-[#727272]"
+                    <div className="p-2 dark:text-[#3E3E3E]">
+                        <ReactQuill
+                            theme="snow"
+                            modules={modules}
+                            formats={formats}
+                            onChange={handleChange}
+                            className="border rounded bg-white"
                             placeholder="Text"
-                            {...register('content', { required: 'content is required' })}
                         />
                     </div>
                     <div className="flex flex-row justify-end gap-2 px-2">
