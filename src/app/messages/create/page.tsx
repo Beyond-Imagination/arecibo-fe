@@ -3,7 +3,7 @@
 import { useMutation, useQueryClient } from 'react-query'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useForm, SubmitHandler } from 'react-hook-form'
-import ReactQuill from 'react-quill'
+import dynamic from 'next/dynamic'
 import 'react-quill/dist/quill.snow.css'
 
 import { postMessage } from '@/api'
@@ -14,6 +14,10 @@ type Inputs = {
     title: string
     content: string
 }
+
+const TextEditor = dynamic(() => import('react-quill'), {
+    loading: () => <div className="border rounded animate-pulse w-full h-28 p-2 bg-[#E3E3E3]" />,
+})
 
 export default function Create() {
     const searchParams = useSearchParams()
@@ -111,7 +115,7 @@ export default function Create() {
                         />
                     </div>
                     <div className="p-2 dark:text-[#3E3E3E]">
-                        <ReactQuill
+                        <TextEditor
                             theme="snow"
                             modules={modules}
                             formats={formats}
