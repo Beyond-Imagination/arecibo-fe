@@ -4,6 +4,7 @@ import { useMutation } from 'react-query'
 import { IAlien, ILoginRequest, ILoginResponse } from '@/types'
 import { postLogin } from '@/api'
 import { useCredential } from '@/hooks'
+import { AuthLoading } from '@/components/loading'
 
 const authContext = createContext<IAlien | null>(null)
 
@@ -33,7 +34,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }, [credential])
 
     if (!credential || !alien) {
-        return <div>loading</div> // TODO: loading 컴포넌트 구현
+        return <AuthLoading />
     }
 
     return (

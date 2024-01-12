@@ -9,6 +9,7 @@ import 'react-quill/dist/quill.snow.css'
 import { postMessage } from '@/api'
 import { IPostMessageRequest } from '@/types'
 import { useAlien } from '@/providers'
+import { TextEditorLoading } from '@/components/loading'
 
 type Inputs = {
     title: string
@@ -16,7 +17,7 @@ type Inputs = {
 }
 
 const TextEditor = dynamic(() => import('react-quill'), {
-    loading: () => <div className="border rounded animate-pulse w-full h-28 p-2 bg-[#E3E3E3]" />,
+    loading: () => <TextEditorLoading />,
 })
 
 export default function Create() {
