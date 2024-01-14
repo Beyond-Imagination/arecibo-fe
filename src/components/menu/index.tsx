@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { useQuery } from 'react-query'
 
 import { useAlien } from '@/providers'
@@ -16,9 +17,19 @@ export default function Menu() {
         // TODO: remove border
         <div className="border-2 border-black">
             <p className="text-4xl m-4">menu</p>
-            {/*TODO: planet component 추가. 클릭시 planet page 로 이동*/}
             {/*TODO: planet 정렬 기준 추가*/}
-            {data?.planets.map(planet => <div key={planet._id}>{planet.title}</div>)}
+            {data?.planets.map(planet => (
+                <div key={planet._id}>
+                    <Link
+                        href={{
+                            pathname: '/planets',
+                            query: { planetId: planet._id, title: planet.title },
+                        }}
+                    >
+                        {planet.title}
+                    </Link>
+                </div>
+            ))}
         </div>
     )
 }
