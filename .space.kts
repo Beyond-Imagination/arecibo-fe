@@ -34,7 +34,10 @@ job("[FE] Deploy Develop") {
         shellScript {
             content = """
                 yarn install
+
+                echo "NEXT_PUBLIC_NEWRELIC_AGENT_ID={{ project:NEXT_PUBLIC_NEWRELIC_AGENT_ID_DEV }}" >> .env.development
                 cp .env.development .env
+
                 yarn build
                 cp -r out ${'$'}JB_SPACE_FILE_SHARE_PATH/out
             """

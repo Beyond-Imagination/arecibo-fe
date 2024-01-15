@@ -9,6 +9,7 @@ import { QueryClient, QueryClientProvider } from 'react-query'
 import Header from '@/components/header'
 import Menu from '@/components/menu'
 import { AuthProvider } from '@/providers'
+import Newrelic from '@/components/newrelic'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -27,6 +28,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 
     return (
         <html lang="en" className="flex flex-col">
+            <Newrelic />
             <body className={inter.className}>
                 <QueryClientProvider client={queryClient}>
                     <AuthProvider>
