@@ -1,8 +1,8 @@
-import Link from 'next/link'
 import { useQuery } from 'react-query'
 
 import { useAlien } from '@/providers'
 import { getPlanets } from '@/api'
+import PlanetLink from '@/components/menu/planetLink'
 
 export default function Menu() {
     const alien = useAlien()
@@ -18,18 +18,7 @@ export default function Menu() {
         <div className="border-2 border-black">
             <p className="text-4xl m-4">menu</p>
             {/*TODO: planet 정렬 기준 추가*/}
-            {data?.planets.map(planet => (
-                <div key={planet._id}>
-                    <Link
-                        href={{
-                            pathname: '/planets',
-                            query: { planetId: planet._id, title: planet.title },
-                        }}
-                    >
-                        {planet.title}
-                    </Link>
-                </div>
-            ))}
+            {data?.planets.map(planet => <PlanetLink key={planet._id} planet={planet} />)}
         </div>
     )
 }
