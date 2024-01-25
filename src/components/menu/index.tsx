@@ -14,9 +14,10 @@ export default function Menu() {
     })
 
     return (
-        // TODO: remove border
-        <div className="border-2 border-black">
-            <p className="text-4xl m-4">menu</p>
+        <div className="pt-6">
+            <div className="border-t-2 border-black"></div>
+            <p className="text-4xl m-2">Planet</p>
+            <div className="border-t-2 border-black"></div>
             {/*TODO: planet 정렬 기준 추가*/}
             {data?.planets.map(planet => <PlanetLink key={planet._id} planet={planet} />)}
         </div>
