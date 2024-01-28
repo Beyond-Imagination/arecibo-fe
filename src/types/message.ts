@@ -8,6 +8,7 @@ export interface IMessage {
     }
     commentCount: number
     likeCount: number
+    isLiked: boolean
     isBlind: boolean
     createdAt: Date
     updatedAt: Date
@@ -36,4 +37,19 @@ export interface IPostMessageRequest {
     secret: {
         token: string
     }
+}
+
+export interface IPostMessageLikeRequest {
+    uri: {
+        planetId: string
+        messageId: string
+    }
+    secret: {
+        token: string
+    }
+}
+
+export interface IPostMessageLikeResponse {
+    message: string
+    likeCount: number
 }

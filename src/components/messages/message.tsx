@@ -5,7 +5,8 @@ import updateLocale from 'dayjs/plugin/updateLocale'
 import 'react-quill/dist/quill.snow.css'
 
 import { IMessage } from '@/types'
-import { Like, Comment } from '@/icon'
+import { Comment } from '@/icon'
+import MessageLikeButton from './messageLike'
 
 interface PlanetProps {
     message: IMessage
@@ -23,8 +24,8 @@ dayjs.updateLocale('en', {
 export default function Message({ message }: PlanetProps) {
     const timeDifference = dayjs(message.createdAt.toString()).fromNow()
 
+    // TODD: add move to message detail page
     // TODO: change alien image
-    // TODO: add action of buttons
     return (
         <div id={`message${message._id}`} className="block p-6 my-3 bg-white rounded-lg dark:bg-neutral-700">
             <div className="flex flex-row justify-between">
@@ -42,20 +43,12 @@ export default function Message({ message }: PlanetProps) {
             </div>
             <div className="flex flex-row justify-start pt-3">
                 <div className="pe-4">
-                    <button
-                        type="button"
-                        className="flex items-center rounded-full border-2 border-[#EFEFEF] px-3 text-xs font-medium text-[#727272] bg-[#EFEFEF] dark:border-[#727272] dark:text-[#EFEFEF] dark:bg-[#727272]"
-                    >
-                        <div className="flex-1 w-5 m-2">
-                            <Like />
-                        </div>
-                        <p className="flex-none m-2">{message.likeCount}</p>
-                    </button>
+                    <MessageLikeButton messageId={message._id} count={message.likeCount} isLiked={message.isLiked} />
                 </div>
                 <div className="pe-4">
                     <button
                         type="button"
-                        className="flex items-center rounded-full border-2 border-[#EFEFEF] px-3 text-xs font-medium text-[#727272] bg-[#EFEFEF] dark:border-[#727272] dark:text-[#EFEFEF] dark:bg-[#727272]"
+                        className="flex items-center rounded-full border-2 px-3 text-xs font-medium text-[#727272] border-[#EFEFEF] bg-[#EFEFEF] dark:text-[#EFEFEF] dark:border-[#727272] dark:bg-[#727272]"
                     >
                         <div className="flex-1 w-5 m-2">
                             <Comment />

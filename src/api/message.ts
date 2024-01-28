@@ -1,7 +1,7 @@
 import { QueryFunctionContext } from 'react-query'
 
 import { SERVER_URL } from '@/config'
-import { IAlien, IGetMessageListResponse, IPostMessageRequest } from '@/types'
+import { IAlien, IGetMessageListResponse, IPostMessageLikeRequest, IPostMessageLikeResponse, IPostMessageRequest } from '@/types'
 
 export async function getMessages({ queryKey }: QueryFunctionContext<[string, string, object, IAlien]>): Promise<IGetMessageListResponse> {
     const [, planetId, query, alien] = queryKey
@@ -30,4 +30,19 @@ export async function postMessage(request: IPostMessageRequest): Promise<void> {
     if (!res.ok) {
         throw new Error('network response was not ok')
     }
+}
+
+export async function postMessageLike(request: IPostMessageLikeRequest): Promise<IPostMessageLikeResponse> {
+    const res = await fetch(`${SERVER_URL}/v1/planets/${request.uri.planetId}/messages/${request.uri.messageId}/likes`, {
+        method: 'POST',
+        headers: {
+            Authorization: `Bearer ${request.secret.token}`,
+            'Content-Type': 'application/json',
+        },
+    })
+    if (!res.ok) {
+        throw new Error('network response was not ok')
+    }
+
+    return res.json()
 }
