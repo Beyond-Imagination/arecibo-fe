@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { useQuery } from 'react-query'
 import { useRouter, usePathname } from 'next/navigation'
 
@@ -8,6 +9,7 @@ import PlanetLink from '@/components/menu/planetLink'
 export default function Menu() {
     const alien = useAlien()
     const router = useRouter()
+    const pathName = usePathname()
 
     const { data } = useQuery(['planets', alien], getPlanets, {
         enabled: !!alien,
@@ -15,13 +17,15 @@ export default function Menu() {
         suspense: true,
     })
 
-    // 최초 진입시 path 를 organization planet 으로 변경
-    if (usePathname() === '/') {
-        const planet = data?.planets.find(element => element.category === 'organization')
-        if (planet) {
-            router.replace(`/planets?planetId=${planet._id}&title=${planet.title}`)
+    useEffect(() => {
+        // 최초 진입시 path 를 organization planet 으로 변경
+        if (pathName === '/') {
+            const planet = data?.planets.find(element => element.category === 'organization')
+            if (planet) {
+                router.replace(`/planets?planetId=${planet._id}&title=${planet.title}`)
+            }
         }
-    }
+    })
 
     return (
         <div className="pt-6">
