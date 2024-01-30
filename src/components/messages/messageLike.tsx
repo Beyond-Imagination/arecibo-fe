@@ -5,6 +5,7 @@ import { Like } from '@/icon'
 import { useAlien } from '@/providers'
 import { IPostMessageLikeRequest } from '@/types'
 import { postMessageLike } from '@/api'
+import { useState } from 'react'
 
 interface Props {
     messageId: string
@@ -17,12 +18,23 @@ export default function MessageLikeButton({ messageId, count, isLiked }: Props) 
     const planetId = useSearchParams().get('planetId') || ''
     const queryClient = useQueryClient()
 
+    const [isLikedState, setIsLikedState] = useState(isLiked)
+    const [countState, setCountState] = useState(count)
+
+    const updateState = () => {
+        setCountState(prevCount => (isLiked ? prevCount - 1 : prevCount + 1))
+        setIsLikedState(prevIsLiked => !prevIsLiked)
+    }
     const mutation = useMutation({
-        mutationFn: (requset: IPostMessageLikeRequest) => {
-            return postMessageLike(requset)
+        mutationFn: (request: IPostMessageLikeRequest) => {
+            return postMessageLike(request)
+        },
+        onMutate: () => {
+            updateState()
         },
         onSuccess: async data => {
             if (data.message) {
+                updateState()
                 throw new Error(data.message)
             }
             await queryClient.invalidateQueries({ queryKey: ['messageList', planetId] })
@@ -44,7 +56,7 @@ export default function MessageLikeButton({ messageId, count, isLiked }: Props) 
         <button
             type="button"
             className={`flex items-center rounded-full border-2 px-3 text-xs font-medium ${
-                isLiked
+                isLikedState
                     ? 'text-[#EFEFEF] border-[#727272] bg-[#727272] dark:text-[#727272] dark:border-[#EFEFEF] dark:bg-[#EFEFEF]'
                     : 'text-[#727272] border-[#EFEFEF] bg-[#EFEFEF] dark:text-[#EFEFEF] dark:border-[#727272] dark:bg-[#727272]'
             }`}
@@ -53,7 +65,7 @@ export default function MessageLikeButton({ messageId, count, isLiked }: Props) 
             <div className="flex-1 w-5 m-2">
                 <Like />
             </div>
-            <p className="flex-none m-2">{count}</p>
+            <p className="flex-none m-2">{countState}</p>
         </button>
     )
 }
