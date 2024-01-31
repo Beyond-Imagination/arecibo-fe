@@ -22,7 +22,7 @@ export default function MessageLikeButton({ messageId, count, isLiked }: Props) 
     const [countState, setCountState] = useState(count)
 
     const updateState = () => {
-        setCountState(prevCount => (isLiked ? prevCount - 1 : prevCount + 1))
+        setCountState(prevCount => (isLikedState ? prevCount - 1 : prevCount + 1))
         setIsLikedState(prevIsLiked => !prevIsLiked)
     }
     const mutation = useMutation({
