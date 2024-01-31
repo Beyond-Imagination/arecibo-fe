@@ -45,7 +45,7 @@ export default function Page() {
                     <div className="my-2">Create a Post</div>
                 </Link>
             </div>
-            <MessageList key={planetId} data={data} />
+            <MessageList key={planetId} data={data} planetId={planetId} title={title} />
         </div>
     )
 }

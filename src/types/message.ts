@@ -14,6 +14,25 @@ export interface IMessage {
     updatedAt: Date
 }
 
+export interface IComment {
+    _id: string
+    messageId: string
+    planetId: string
+    text: string
+    author: string
+    likes: string
+    comments: string
+    parentCommentId: string
+    isNested: string
+    isBlind: string
+    createdAt: Date
+    updatedAt: Date
+}
+
+export interface IGetMessageResponse extends IMessage {
+    comments: IComment[]
+}
+
 export interface IGetMessageListResponse {
     messages: IMessage[]
     page: {
