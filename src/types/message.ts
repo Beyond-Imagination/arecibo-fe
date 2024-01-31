@@ -19,10 +19,14 @@ export interface IComment {
     messageId: string
     planetId: string
     text: string
-    author: string
-    likes: string
-    comments: string
+    author: {
+        organization: string
+        nickname: string
+    }
+    likeCount: string
+    comments: IComment[]
     parentCommentId: string
+    isLiked: boolean
     isNested: string
     isBlind: string
     createdAt: Date

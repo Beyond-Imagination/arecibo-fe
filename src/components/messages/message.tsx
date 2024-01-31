@@ -5,10 +5,10 @@ import updateLocale from 'dayjs/plugin/updateLocale'
 import 'react-quill/dist/quill.snow.css'
 
 import { IMessage } from '@/types'
-import { Comment } from '@/icon'
+import { CommentIcon } from '@/icon'
 import MessageLikeButton from './messageLike'
 
-interface PlanetProps {
+interface Props {
     message: IMessage
 }
 
@@ -21,10 +21,9 @@ dayjs.updateLocale('en', {
     },
 })
 
-export default function Message({ message }: PlanetProps) {
+export default function Message({ message }: Props) {
     const timeDifference = dayjs(message.createdAt.toString()).fromNow()
 
-    // TODD: add move to message detail page
     // TODO: change alien image
     return (
         <div id={`message${message._id}`} className="block p-6 my-3 bg-white rounded-lg dark:bg-neutral-700">
@@ -51,7 +50,7 @@ export default function Message({ message }: PlanetProps) {
                         className="flex items-center rounded-full border-2 px-3 text-xs font-medium text-[#727272] border-[#EFEFEF] bg-[#EFEFEF] dark:text-[#EFEFEF] dark:border-[#727272] dark:bg-[#727272]"
                     >
                         <div className="flex-1 w-5 m-2">
-                            <Comment />
+                            <CommentIcon />
                         </div>
                         <p className="flex-none m-2">{message.commentCount}</p>
                     </button>

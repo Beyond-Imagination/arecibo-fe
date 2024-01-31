@@ -7,6 +7,7 @@ import { getMessage } from '@/api'
 import { IGetMessageResponse } from '@/types'
 import { useAlien } from '@/providers'
 import Message from '@/components/messages/message'
+import CommentList from '@/components/comments/commentList'
 
 export default function Page() {
     const searchParams = useSearchParams()
@@ -32,8 +33,10 @@ export default function Page() {
                 <p className="text-4xl">{title}</p>
             </div>
             <Message key={planetId} message={data} />
-            {/* TODO: comment 등록 component 추가  */}
-            {/* TODO: comment list 표시 component 추가   */}
+            <div className="my-3 bg-white rounded-lg dark:bg-neutral-700">
+                {/* TODO: comment 등록 component 추가  */}
+                <CommentList key={planetId} comments={data.comments} />
+            </div>
         </div>
     )
 }
