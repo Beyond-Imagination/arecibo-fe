@@ -1,11 +1,11 @@
 import { useSearchParams } from 'next/navigation'
 import { useMutation, useQueryClient } from 'react-query'
+import React, { useState } from 'react'
 
 import { Like } from '@/icon'
 import { useAlien } from '@/providers'
 import { IPostMessageLikeRequest } from '@/types'
 import { postMessageLike } from '@/api'
-import { useState } from 'react'
 
 interface Props {
     messageId: string
@@ -40,7 +40,8 @@ export default function MessageLikeButton({ messageId, count, isLiked }: Props) 
             await queryClient.invalidateQueries({ queryKey: ['messageList', planetId] })
         },
     })
-    const onClick = () => {
+    const onClick = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        event.preventDefault()
         const request: IPostMessageLikeRequest = {
             uri: {
                 planetId: planetId,
