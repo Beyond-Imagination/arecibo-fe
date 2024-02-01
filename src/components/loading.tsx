@@ -38,6 +38,15 @@ function MessageSkeleton() {
     )
 }
 
+export function MessageLoading() {
+    return (
+        <div className="animate-pulse flex flex-col rounded-lg w-full mt-2 p-2 space-y-2 bg-white dark:bg-neutral-900">
+            <MessageSkeleton />
+            <div className="rounded-lg h-8 m-2 pt-2 bg-neutral-200 dark:bg-neutral-700" />
+        </div>
+    )
+}
+
 export function MessageListLoading() {
     return (
         <div className="animate-pulse flex flex-col rounded-lg w-full mt-2 p-2 space-y-2 bg-white dark:bg-neutral-900">
