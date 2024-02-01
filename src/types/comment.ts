@@ -7,7 +7,7 @@ export interface IComment {
         organization: string
         nickname: string
     }
-    likeCount: string
+    likeCount: number
     comments: IComment[]
     parentCommentId: string
     isLiked: boolean
@@ -29,4 +29,20 @@ export interface IPostCommentRequest {
     secret: {
         token: string
     }
+}
+
+export interface IPostCommentLikeRequest {
+    uri: {
+        planetId: string
+        messageId: string
+        commentId: string
+    }
+    secret: {
+        token: string
+    }
+}
+
+export interface IPostCommentLikeResponse {
+    message: string
+    likeCount: number
 }

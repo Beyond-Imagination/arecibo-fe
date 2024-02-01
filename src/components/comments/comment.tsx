@@ -6,6 +6,7 @@ import updateLocale from 'dayjs/plugin/updateLocale'
 
 import { IComment } from '@/types/comment'
 import CommentAdd from './commentAdd'
+import CommentLikeButton from './commentLike'
 
 interface Props {
     comment: IComment
@@ -30,6 +31,11 @@ export default function Comment({ comment }: Props) {
         messageId: comment.messageId,
         parentCommentId: parentCommentId,
     }
+    const commentLikeData = {
+        planetId: comment.planetId,
+        messageId: comment.messageId,
+        commentId: comment._id,
+    }
     const toggleCommentAdd = () => {
         setShowCommentAdd(!showCommentAdd)
     }
@@ -47,8 +53,7 @@ export default function Comment({ comment }: Props) {
                     <div className="ql-editor" dangerouslySetInnerHTML={{ __html: comment.text }}></div>
                 </div>
                 <div className="flex flex-row justify-start px-2 text-sm text-[#636363] dark:text-neutral-50">
-                    {/*TODO: make like button */}
-                    <div className="px-2">likes {comment.likeCount} </div>
+                    <CommentLikeButton key={comment._id} id={commentLikeData} isLiked={comment.isLiked} count={comment.likeCount} />
                     <button onClick={toggleCommentAdd} className="px-2">
                         replies {comment.comments.length}
                     </button>
