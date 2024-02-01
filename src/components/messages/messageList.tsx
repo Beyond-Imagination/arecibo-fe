@@ -17,7 +17,7 @@ export default function MessageList({ data, title, planetId }: Props) {
                 {messages &&
                     messages.map(message => (
                         <Link href={`/messages/detail?planetId=${planetId}&messageId=${message._id}&title=${title}`} key={message._id}>
-                            <Message key={message._id} message={message} />
+                            <Message key={message._id} message={message} planetId={planetId} />
                         </Link>
                     ))}
             </div>

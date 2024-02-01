@@ -9,6 +9,7 @@ import { CommentIcon } from '@/icon'
 import MessageLikeButton from './messageLike'
 
 interface Props {
+    planetId: string
     message: IMessage
 }
 
@@ -21,7 +22,7 @@ dayjs.updateLocale('en', {
     },
 })
 
-export default function Message({ message }: Props) {
+export default function Message({ planetId, message }: Props) {
     const timeDifference = dayjs(message.createdAt.toString()).fromNow()
 
     // TODO: change alien image
@@ -42,7 +43,7 @@ export default function Message({ message }: Props) {
             </div>
             <div className="flex flex-row justify-start pt-3">
                 <div className="pe-4">
-                    <MessageLikeButton messageId={message._id} count={message.likeCount} isLiked={message.isLiked} />
+                    <MessageLikeButton planetId={planetId} messageId={message._id} count={message.likeCount} isLiked={message.isLiked} />
                 </div>
                 <div className="pe-4">
                     <button

@@ -1,21 +1,20 @@
-import { useSearchParams } from 'next/navigation'
 import { useMutation, useQueryClient } from 'react-query'
 import React, { useState } from 'react'
 
-import { Like } from '@/icon'
+import { Like, UnLike } from '@/icon'
 import { useAlien } from '@/providers'
 import { IPostMessageLikeRequest } from '@/types'
 import { postMessageLike } from '@/api'
 
 interface Props {
+    planetId: string
     messageId: string
     count: number
     isLiked: boolean
 }
 
-export default function MessageLikeButton({ messageId, count, isLiked }: Props) {
+export default function MessageLikeButton({ planetId, messageId, count, isLiked }: Props) {
     const alien = useAlien()
-    const planetId = useSearchParams().get('planetId') || ''
     const queryClient = useQueryClient()
 
     const [isLikedState, setIsLikedState] = useState(isLiked)
@@ -58,14 +57,12 @@ export default function MessageLikeButton({ messageId, count, isLiked }: Props) 
             type="button"
             className={`flex items-center rounded-full border-2 px-3 text-xs font-medium ${
                 isLikedState
-                    ? 'text-[#EFEFEF] border-[#727272] bg-[#727272] dark:text-[#727272] dark:border-[#EFEFEF] dark:bg-[#EFEFEF]'
+                    ? 'text-[#EFEFEF] border-[#727272] bg-[#727272] dark:text-[#EFEFEF] dark:border-[#242424] dark:bg-[#242424]'
                     : 'text-[#727272] border-[#EFEFEF] bg-[#EFEFEF] dark:text-[#EFEFEF] dark:border-[#727272] dark:bg-[#727272]'
             }`}
             onClick={onClick}
         >
-            <div className="flex-1 w-5 m-2">
-                <Like />
-            </div>
+            <div className="flex-1 w-5 m-2">{isLikedState ? <UnLike /> : <Like />}</div>
             <p className="flex-none m-2">{countState}</p>
         </button>
     )
