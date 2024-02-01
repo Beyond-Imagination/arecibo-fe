@@ -10,6 +10,7 @@ import { postMessage } from '@/api'
 import { IPostMessageRequest } from '@/types'
 import { useAlien } from '@/providers'
 import { TextEditorLoading } from '@/components/loading'
+import FormError from '@/components/formError'
 
 type Inputs = {
     title: string
@@ -141,11 +142,7 @@ export default function Create() {
                             Post
                         </button>
                     </div>
-                    {errorMessage && (
-                        <div className="relative px-4 py-3 mt-2 text-red-700 bg-red-100 border border-red-400 rounded" role="alert">
-                            <strong className="font-bold">{errorMessage}</strong>
-                        </div>
-                    )}
+                    {errorMessage && <FormError errorMessage={errorMessage} />}
                 </form>
             </div>
         </div>

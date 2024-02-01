@@ -1,8 +1,11 @@
-import { IComment } from '@/types'
+import Image from 'next/image'
+import { useState } from 'react'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import updateLocale from 'dayjs/plugin/updateLocale'
-import Image from 'next/image'
+
+import { IComment } from '@/types/comment'
+import CommentAdd from './commentAdd'
 
 interface Props {
     comment: IComment
@@ -18,8 +21,18 @@ dayjs.updateLocale('en', {
 })
 
 export default function Comment({ comment }: Props) {
+    const [showCommentAdd, setShowCommentAdd] = useState(false)
     const timeDifference = dayjs(comment.createdAt.toString()).fromNow()
-
+    // TODO: depth 1 이상인 comment 처리 방법 변경
+    const parentCommentId = comment.isNested ? comment.parentCommentId : comment._id
+    const nestedCommentAddData = {
+        planetId: comment.planetId,
+        messageId: comment.messageId,
+        parentCommentId: parentCommentId,
+    }
+    const toggleCommentAdd = () => {
+        setShowCommentAdd(!showCommentAdd)
+    }
     return (
         <div id={comment._id} className="block px-6 my-3">
             <div className="flex flex-row justify-between">
@@ -30,15 +43,17 @@ export default function Comment({ comment }: Props) {
                 </div>
             </div>
             <div className="pt-1 border-l-2">
-                <div className="ql-snow text-[#636363]">
+                <div className="ql-snow">
                     <div className="ql-editor" dangerouslySetInnerHTML={{ __html: comment.text }}></div>
                 </div>
                 <div className="flex flex-row justify-start px-2 text-sm text-[#636363] dark:text-neutral-50">
                     {/*TODO: make like button */}
                     <div className="px-2">likes {comment.likeCount} </div>
-                    {/*TODO: make reply button */}
-                    <div>replies {comment.comments.length}</div>
+                    <button onClick={toggleCommentAdd} className="px-2">
+                        replies {comment.comments.length}
+                    </button>
                 </div>
+                {showCommentAdd && <CommentAdd key={comment._id} data={nestedCommentAddData} />}
                 {comment.comments && comment.comments.map(nestedComment => <Comment key={nestedComment._id} comment={nestedComment} />)}
             </div>
         </div>

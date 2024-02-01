@@ -1,3 +1,5 @@
+import { IComment } from '@/types/comment'
+
 export interface IMessage {
     _id: string
     title: string
@@ -10,25 +12,6 @@ export interface IMessage {
     likeCount: number
     isLiked: boolean
     isBlind: boolean
-    createdAt: Date
-    updatedAt: Date
-}
-
-export interface IComment {
-    _id: string
-    messageId: string
-    planetId: string
-    text: string
-    author: {
-        organization: string
-        nickname: string
-    }
-    likeCount: string
-    comments: IComment[]
-    parentCommentId: string
-    isLiked: boolean
-    isNested: string
-    isBlind: string
     createdAt: Date
     updatedAt: Date
 }

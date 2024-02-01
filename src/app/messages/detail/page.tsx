@@ -7,6 +7,7 @@ import { getMessage } from '@/api'
 import { IGetMessageResponse } from '@/types'
 import { useAlien } from '@/providers'
 import Message from '@/components/messages/message'
+import CommentAdd from '@/components/comments/commentAdd'
 import CommentList from '@/components/comments/commentList'
 
 export default function Page() {
@@ -26,7 +27,11 @@ export default function Page() {
             refetchOnWindowFocus: false,
             suspense: true,
         })?.data || ({} as IGetMessageResponse)
-
+    const commentAddData = {
+        planetId: planetId,
+        messageId: messageId,
+        parentCommentId: '',
+    }
     return (
         <div className="flex flex-col justify-start w-full min-h-screen p-12">
             <div className="flex flex-row justify-between w-full">
@@ -34,8 +39,8 @@ export default function Page() {
             </div>
             <Message key={planetId} message={data} />
             <div className="my-3 bg-white rounded-lg dark:bg-neutral-700">
-                {/* TODO: comment 등록 component 추가  */}
-                <CommentList key={planetId} comments={data.comments} />
+                <CommentAdd data={commentAddData} />
+                <CommentList comments={data.comments} />
             </div>
         </div>
     )
