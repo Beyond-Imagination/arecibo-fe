@@ -41,7 +41,7 @@ export default function CommentAdd({ data, isShow }: Props) {
                 queryClient.invalidateQueries({ queryKey: ['message', data.planetId, data.messageId] }),
                 queryClient.invalidateQueries({ queryKey: ['messageList', data.planetId] }),
             ])
-            router.refresh()
+            router.forward()
             isShow()
         },
     })
