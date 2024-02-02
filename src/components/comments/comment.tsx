@@ -58,7 +58,7 @@ export default function Comment({ comment }: Props) {
                         replies {comment.comments.length}
                     </button>
                 </div>
-                {showCommentAdd && <CommentAdd key={comment._id} data={nestedCommentAddData} />}
+                {showCommentAdd && <CommentAdd key={comment._id} data={nestedCommentAddData} isShow={toggleCommentAdd} />}
                 {comment.comments && comment.comments.map(nestedComment => <Comment key={nestedComment._id} comment={nestedComment} />)}
             </div>
         </div>

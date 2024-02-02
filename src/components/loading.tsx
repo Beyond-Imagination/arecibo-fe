@@ -1,5 +1,6 @@
 import Image from 'next/image'
 import BarLoader from 'react-spinners/BarLoader'
+import FadeLoader from 'react-spinners/FadeLoader'
 
 export function AuthLoading() {
     return (
@@ -53,6 +54,14 @@ export function MessageListLoading() {
             <MessageSkeleton />
             <MessageSkeleton />
             <div className="rounded-lg h-8 m-2 pt-2 bg-neutral-200 dark:bg-neutral-700" />
+        </div>
+    )
+}
+
+export function CommentAddLoading() {
+    return (
+        <div className="flex flex-col rounded items-center w-full h-16 bg-white">
+            <FadeLoader color="#646464" />
         </div>
     )
 }

@@ -5,6 +5,7 @@ import { IPostCommentRequest } from '@/types/comment'
 import { postComment } from '@/api/comment'
 import { useAlien } from '@/providers'
 import FormError from '@/components/formError'
+import { CommentAddLoading } from '@/components/loading'
 
 interface Props {
     data: {
@@ -12,13 +13,14 @@ interface Props {
         parentCommentId: string
         planetId: string
     }
+    isShow: () => void
 }
 
 interface Inputs {
     text: string
 }
 
-export default function CommentAdd({ data }: Props) {
+export default function CommentAdd({ data, isShow }: Props) {
     const {
         register,
         handleSubmit,
@@ -39,11 +41,10 @@ export default function CommentAdd({ data }: Props) {
                 queryClient.invalidateQueries({ queryKey: ['message', data.planetId, data.messageId] }),
                 queryClient.invalidateQueries({ queryKey: ['messageList', data.planetId] }),
             ])
-            resetField('text')
             router.refresh()
+            isShow()
         },
     })
-
     const onSubmit: SubmitHandler<Inputs> = (input: Inputs) => {
         const request: IPostCommentRequest = {
             body: {
@@ -58,6 +59,7 @@ export default function CommentAdd({ data }: Props) {
                 token: alien.jwt,
             },
         }
+        resetField('text')
         mutation.mutate(request)
     }
 
@@ -66,16 +68,20 @@ export default function CommentAdd({ data }: Props) {
             <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="rounded mx-2 text-white bg-[#A5A5A5] dark:bg-[#727272]">
                     <div className="p-2">Write your comment</div>
-                    <input
-                        id="create/text"
-                        className="border rounded w-full h-16 border-[#CCCCCC] text-[#636363] dark:text-[#3E3E3E]"
-                        {...register('text', { required: 'text is required' })}
-                    />
+                    {mutation.isLoading ? (
+                        <CommentAddLoading />
+                    ) : (
+                        <input
+                            id="create/text"
+                            className="border rounded w-full h-16 border-[#CCCCCC] text-[#636363] dark:text-[#3E3E3E]"
+                            {...register('text', { required: 'text is required' })}
+                        />
+                    )}
                 </div>
                 <div className="flex flex-row justify-end p-2">
                     <button
                         type="submit"
-                        disabled={isSubmitting}
+                        disabled={isSubmitting || mutation.isLoading}
                         className="rounded-lg border text-base font-medium py-1 px-6 my-1 text-[#FEFEFE] bg-[#A5A5A5] border-[#868686]"
                     >
                         Comment
