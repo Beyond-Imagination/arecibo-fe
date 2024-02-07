@@ -7,9 +7,11 @@ import 'react-quill/dist/quill.snow.css'
 import { IMessage } from '@/types'
 import { CommentIcon } from '@/icon'
 import MessageLikeButton from './messageLike'
+import MessageOption from './messageOption'
 
 interface Props {
     planetId: string
+    title: string
     message: IMessage
 }
 
@@ -22,7 +24,7 @@ dayjs.updateLocale('en', {
     },
 })
 
-export default function Message({ planetId, message }: Props) {
+export default function Message({ planetId, title, message }: Props) {
     const timeDifference = dayjs(message.createdAt.toString()).fromNow()
 
     // TODO: change alien image
@@ -33,7 +35,10 @@ export default function Message({ planetId, message }: Props) {
                     <Image src="/images/alien.png" width={8} height={8} alt="Alien Image" className="w-8 h-8 rounded-full me-2" />
                     <h5 className="text-3xl font-medium leading-tight text-[#636363] dark:text-neutral-50">{message.author.nickname}</h5>
                 </div>
-                <div className="text-1 font-medium leading-tight text-[#636363] dark:text-neutral-50">{timeDifference}</div>
+                <div className="flex flex-row align-center justify-end">
+                    <div className="text-1 font-medium leading-tight text-[#636363] dark:text-neutral-50">{timeDifference}</div>
+                    <MessageOption planetId={planetId} messageId={message._id} isAuthor={message.isAuthor} title={title} />
+                </div>
             </div>
             <div className="pt-1">
                 <h5 className="text-2xl font-medium leading-tight text-[#727272] dark:text-neutral-300">{message.title}</h5>

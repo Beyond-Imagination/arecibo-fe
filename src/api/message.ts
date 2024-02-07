@@ -1,7 +1,15 @@
 import { QueryFunctionContext } from 'react-query'
 
 import { SERVER_URL } from '@/config'
-import { IAlien, IGetMessageListResponse, IGetMessageResponse, IPostMessageLikeRequest, IPostMessageLikeResponse, IPostMessageRequest } from '@/types'
+import {
+    IAlien,
+    IDeleteMessageRequest,
+    IGetMessageListResponse,
+    IGetMessageResponse,
+    IPostMessageLikeRequest,
+    IPostMessageLikeResponse,
+    IPostMessageRequest,
+} from '@/types'
 
 export async function getMessage({ queryKey }: QueryFunctionContext<[string, string, string, IAlien]>): Promise<IGetMessageResponse> {
     const [, planetId, messageId, alien] = queryKey
@@ -59,4 +67,17 @@ export async function postMessageLike(request: IPostMessageLikeRequest): Promise
     }
 
     return res.json()
+}
+
+export async function deleteMessage(request: IDeleteMessageRequest): Promise<void> {
+    const res = await fetch(`${SERVER_URL}/v1/planets/${request.uri.planetId}/messages/${request.uri.messageId}`, {
+        method: 'DELETE',
+        headers: {
+            Authorization: `Bearer ${request.secret.token}`,
+            'Content-Type': 'application/json',
+        },
+    })
+    if (!res.ok) {
+        throw new Error('network response was not ok')
+    }
 }

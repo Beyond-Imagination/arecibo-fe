@@ -37,7 +37,7 @@ export default function Page() {
             <div className="flex flex-row justify-between w-full">
                 <p className="text-4xl">{title}</p>
             </div>
-            <Message key={planetId} planetId={planetId} message={data} />
+            <Message key={planetId} planetId={planetId} message={data} title={title} />
             <div className="my-3 bg-white rounded-lg dark:bg-neutral-700">
                 <CommentAdd data={commentAddData} isShow={() => {}} />
                 <CommentList comments={data.comments} />

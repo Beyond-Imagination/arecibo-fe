@@ -12,6 +12,7 @@ export interface IMessage {
     likeCount: number
     isLiked: boolean
     isBlind: boolean
+    isAuthor: boolean
     createdAt: Date
     updatedAt: Date
 }
@@ -58,4 +59,14 @@ export interface IPostMessageLikeRequest {
 export interface IPostMessageLikeResponse {
     message: string
     likeCount: number
+}
+
+export interface IDeleteMessageRequest {
+    uri: {
+        planetId: string
+        messageId: string
+    }
+    secret: {
+        token: string
+    }
 }
