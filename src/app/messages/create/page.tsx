@@ -3,23 +3,19 @@
 import { useMutation, useQueryClient } from 'react-query'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useForm, SubmitHandler } from 'react-hook-form'
-import dynamic from 'next/dynamic'
-import 'react-quill/dist/quill.snow.css'
-
+import { useEffect } from 'react'
+import { UnprivilegedEditor } from 'react-quill'
+import { Delta, Sources } from 'quill'
 import { postMessage } from '@/api'
 import { IPostMessageRequest } from '@/types'
 import { useAlien } from '@/providers'
-import { TextEditorLoading } from '@/components/loading'
+import TextEditor from '@/components/textEditor'
 import FormError from '@/components/formError'
 
 type Inputs = {
     title: string
     content: string
 }
-
-const TextEditor = dynamic(() => import('react-quill'), {
-    loading: () => <TextEditorLoading />,
-})
 
 export default function Create() {
     const searchParams = useSearchParams()
@@ -35,9 +31,13 @@ export default function Create() {
         register,
         handleSubmit,
         setValue,
-        trigger,
         formState: { isSubmitting, errors },
     } = useForm<Inputs>()
+
+    useEffect(() => {
+        register('content', { required: 'content is required' })
+    }, [register])
+
     const errorMessage: string | undefined = errors?.title?.message || errors?.content?.message
 
     const router = useRouter()
@@ -68,9 +68,12 @@ export default function Create() {
         mutation.mutate(request)
     }
 
-    const handleChange = (value: string) => {
-        setValue('content', value)
-        trigger('content')
+    const handleChange = (value: string, delta: Delta, source: Sources, editor: UnprivilegedEditor) => {
+        if (editor.getLength() === 1) {
+            setValue('content', '')
+        } else {
+            setValue('content', value)
+        }
     }
 
     // toolbar options
