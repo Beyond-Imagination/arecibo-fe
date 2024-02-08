@@ -78,8 +78,8 @@ job("[FE] Deploy Production") {
             content = """
                 yarn install
 
-                echo "NEXT_PUBLIC_NEWRELIC_AGENT_ID={{ project:NEXT_PUBLIC_NEWRELIC_AGENT_ID_DEV }}" >> .env.development
-                cp .env.development .env
+                echo "NEXT_PUBLIC_NEWRELIC_AGENT_ID={{ project:NEXT_PUBLIC_NEWRELIC_AGENT_ID_PROD }}" >> .env.production
+                cp .env.production .env
 
                 yarn build
                 cp -r out ${'$'}JB_SPACE_FILE_SHARE_PATH/out
