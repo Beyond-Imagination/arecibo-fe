@@ -29,16 +29,16 @@ export default function Paginate({ page }: Props) {
     )
 
     return (
-        <div className="flex flex-row items-center justify-center">
+        <div className="flex flex-row items-center justify-center mb-2">
             <nav aria-label="Page navigation">
                 <ul className="flex list-style-none">
                     <li>
                         <Link
                             href={pathname + '?' + createQueryString(page.page - 1)}
-                            className={`relative block rounded bg-transparent px-3 py-1.5 text-lx transition-all duration-300 ${
+                            className={`relative block rounded px-3 py-1.5 text-lx transition-all duration-300 ${
                                 page.hasPrevPage
-                                    ? ' text-neutral-600 hover:bg-neutral-100 dark:text-white dark:hover:bg-neutral-700 dark:hover:text-white'
-                                    : 'pointer-events-none text-neutral-500 dark:text-neutral-400'
+                                    ? 'text-neutral-600 hover:bg-neutral-200 dark:text-white dark:hover:bg-neutral-500 dark:hover:text-white'
+                                    : 'pointer-events-none text-neutral-300 dark:text-neutral-400'
                             }`}
                         >
                             Previous
@@ -49,10 +49,10 @@ export default function Paginate({ page }: Props) {
                             <li key={pageNumber} aria-current={pageNumber == page.page ? 'page' : undefined}>
                                 <Link
                                     href={pathname + '?' + createQueryString(pageNumber)}
-                                    className={`relative block rounded bg-transparent px-3 py-1.5 text-lx ${
+                                    className={`relative block rounded px-3 py-1.5 me-1 text-lx ${
                                         pageNumber === page.page
-                                            ? 'pointer-events-none text-neutral-600 bg-neutral-50 dark:text-white dark:bg-neutral-700'
-                                            : 'text-neutral-600 hover:bg-neutral-50 dark:text-white dark:hover:bg-neutral-700 dark:hover:text-white'
+                                            ? 'pointer-events-none text-neutral-600 bg-neutral-200 dark:text-white dark:bg-neutral-500'
+                                            : 'text-neutral-600 hover:bg-neutral-200 dark:text-white dark:hover:bg-neutral-500 dark:hover:text-white'
                                     } transition-all duration-300`}
                                 >
                                     {pageNumber}
@@ -62,10 +62,10 @@ export default function Paginate({ page }: Props) {
                     <li>
                         <Link
                             href={pathname + '?' + createQueryString(page.page + 1)}
-                            className={`relative block rounded bg-transparent px-3 py-1.5 text-lx transition-all duration-300 ${
+                            className={`relative block rounded px-3 py-1.5 text-lx transition-all duration-300 ${
                                 page.hasNextPage
-                                    ? ' text-neutral-600 hover:bg-neutral-100 dark:text-white dark:hover:bg-neutral-700 dark:hover:text-white'
-                                    : 'pointer-events-none text-neutral-500 dark:text-neutral-400'
+                                    ? 'text-neutral-600 hover:bg-neutral-200 dark:text-white dark:hover:bg-neutral-500 dark:hover:text-white'
+                                    : 'pointer-events-none text-neutral-300 dark:text-neutral-400'
                             }`}
                         >
                             Next

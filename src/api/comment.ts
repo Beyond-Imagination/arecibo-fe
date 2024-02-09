@@ -1,6 +1,22 @@
-import { SERVER_URL } from '@/config'
-import { IPostCommentRequest, IPostCommentLikeRequest, IPostCommentLikeResponse } from '@/types/comment'
+import { QueryFunctionContext } from 'react-query'
 
+import { SERVER_URL } from '@/config'
+import { IAlien, IPostCommentRequest, IPostCommentLikeRequest, IPostCommentLikeResponse, IGetCommentListResponse } from '@/types'
+
+export async function getComments({ queryKey }: QueryFunctionContext<[string, string, string, object, IAlien]>): Promise<IGetCommentListResponse> {
+    const [, planetId, messageId, query, alien] = queryKey
+    const searchParams = new URLSearchParams({ ...query })
+    const res = await fetch(`${SERVER_URL}/v1/planets/${planetId}/messages/${messageId}/comments?${searchParams}`, {
+        method: 'GET',
+        headers: {
+            Authorization: `Bearer ${alien.jwt}`,
+        },
+    })
+    if (!res.ok) {
+        throw new Error('network response was not ok')
+    }
+    return res.json()
+}
 export async function postComment(request: IPostCommentRequest): Promise<void> {
     let uri = `${SERVER_URL}/v1/planets/${request.uri.planetId}/messages/${request.uri.messageId}/comments`
     if (request.uri.parentCommentId) {

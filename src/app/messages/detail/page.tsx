@@ -40,7 +40,7 @@ export default function Page() {
             <Message key={planetId} planetId={planetId} message={data} title={title} />
             <div className="my-3 bg-white rounded-lg dark:bg-neutral-700">
                 <CommentAdd data={commentAddData} isShow={() => {}} />
-                <CommentList comments={data.comments} />
+                <CommentList planetId={planetId} messageId={messageId} />
             </div>
         </div>
     )

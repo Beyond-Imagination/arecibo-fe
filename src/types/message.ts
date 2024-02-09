@@ -1,5 +1,3 @@
-import { IComment } from '@/types/comment'
-
 export interface IMessage {
     _id: string
     title: string
@@ -17,9 +15,7 @@ export interface IMessage {
     updatedAt: Date
 }
 
-export interface IGetMessageResponse extends IMessage {
-    comments: IComment[]
-}
+export interface IGetMessageResponse extends IMessage {}
 
 export interface IGetMessageListResponse {
     messages: IMessage[]

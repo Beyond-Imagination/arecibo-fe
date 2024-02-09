@@ -11,10 +11,23 @@ export interface IComment {
     comments: IComment[]
     parentCommentId: string
     isLiked: boolean
-    isNested: string
-    isBlind: string
+    isNested: boolean
+    isAuthor: boolean
+    isBlind: boolean
     createdAt: Date
     updatedAt: Date
+}
+
+export interface IGetCommentListResponse {
+    comments: IComment[]
+    page: {
+        totalDocs: number
+        totalPages: number
+        hasNextPage: boolean
+        hasPrevPage: boolean
+        page: number
+        limit: number
+    }
 }
 
 export interface IPostCommentRequest {
