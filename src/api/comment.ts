@@ -1,7 +1,14 @@
 import { QueryFunctionContext } from 'react-query'
 
 import { SERVER_URL } from '@/config'
-import { IAlien, IPostCommentRequest, IPostCommentLikeRequest, IPostCommentLikeResponse, IGetCommentListResponse } from '@/types'
+import {
+    IAlien,
+    IPostCommentRequest,
+    IPostCommentLikeRequest,
+    IPostCommentLikeResponse,
+    IGetCommentListResponse,
+    IDeleteCommentRequest,
+} from '@/types'
 
 export async function getComments({ queryKey }: QueryFunctionContext<[string, string, string, object, IAlien]>): Promise<IGetCommentListResponse> {
     const [, planetId, messageId, query, alien] = queryKey
@@ -51,4 +58,17 @@ export async function postCommentLike(request: IPostCommentLikeRequest): Promise
     }
 
     return res.json()
+}
+
+export async function deleteComment(request: IDeleteCommentRequest): Promise<void> {
+    const res = await fetch(`${SERVER_URL}/v1/planets/${request.uri.planetId}/messages/${request.uri.messageId}/comments/${request.uri.commentId}`, {
+        method: 'DELETE',
+        headers: {
+            Authorization: `Bearer ${request.secret.token}`,
+            'Content-Type': 'application/json',
+        },
+    })
+    if (!res.ok) {
+        throw new Error('network response was not ok')
+    }
 }

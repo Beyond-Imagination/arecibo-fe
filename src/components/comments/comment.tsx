@@ -7,6 +7,7 @@ import updateLocale from 'dayjs/plugin/updateLocale'
 import { IComment } from '@/types/comment'
 import CommentAdd from './commentAdd'
 import CommentLikeButton from './commentLike'
+import CommentOption from './commentOption'
 
 interface Props {
     comment: IComment
@@ -47,6 +48,7 @@ export default function Comment({ comment }: Props) {
                     <h5 className="text-lg font-medium leading-tight text-[#636363] dark:text-neutral-50">{comment.author.nickname}</h5>
                     <div className="text-sm font-medium leading-tight px-2 text-[#636363] dark:text-neutral-50">{timeDifference}</div>
                 </div>
+                <CommentOption planetId={comment.planetId} messageId={comment.messageId} commentId={comment._id} isAuthor={comment.isAuthor} />
             </div>
             <div className="pt-1 border-l-2">
                 <div className="ql-snow">

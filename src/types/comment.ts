@@ -59,3 +59,14 @@ export interface IPostCommentLikeResponse {
     message: string
     likeCount: number
 }
+
+export interface IDeleteCommentRequest {
+    uri: {
+        planetId: string
+        messageId: string
+        commentId: string
+    }
+    secret: {
+        token: string
+    }
+}

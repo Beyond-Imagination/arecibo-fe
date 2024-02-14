@@ -2,36 +2,41 @@ import React from 'react'
 import { useRouter } from 'next/navigation'
 import { useMutation, useQueryClient } from 'react-query'
 import { useAlien } from '@/providers'
-import { deleteMessage } from '@/api'
-import { IDeleteMessageRequest } from '@/types'
+import { IDeleteCommentRequest } from '@/types'
+import { deleteComment } from '@/api'
 import Dropdown from '@/components/dropdown'
 
 interface Props {
     planetId: string
     messageId: string
+    commentId: string
     isAuthor: boolean
-    title: string
 }
 
-export default function MessageOption({ planetId, messageId, isAuthor, title }: Props) {
+export default function CommentOption({ planetId, messageId, commentId, isAuthor }: Props) {
     const alien = useAlien()
     const queryClient = useQueryClient()
     const router = useRouter()
     const mutation = useMutation({
-        mutationFn: (request: IDeleteMessageRequest) => {
-            return deleteMessage(request)
+        mutationFn: (request: IDeleteCommentRequest) => {
+            return deleteComment(request)
         },
         onSuccess: async () => {
-            await queryClient.invalidateQueries(['messageList', planetId])
-            router.push(`/planets?planetId=${planetId}&title=${title}`)
+            await Promise.all([
+                queryClient.invalidateQueries(['commentList', planetId]),
+                queryClient.invalidateQueries(['message', planetId, messageId]),
+            ])
+            router.forward()
         },
     })
+
     const deleteToggle = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         event.preventDefault()
-        const request: IDeleteMessageRequest = {
+        const request: IDeleteCommentRequest = {
             uri: {
                 planetId: planetId,
                 messageId: messageId,
+                commentId: commentId,
             },
             secret: {
                 token: alien.jwt,
