@@ -37,6 +37,7 @@ job("[FE] Deploy Develop") {
 
                 echo "NEXT_PUBLIC_NEWRELIC_AGENT_ID={{ project:NEXT_PUBLIC_NEWRELIC_AGENT_ID_DEV }}" >> .env.development
                 cp .env.development .env
+                rm .env.production
 
                 yarn build
                 cp -r out ${'$'}JB_SPACE_FILE_SHARE_PATH/out
