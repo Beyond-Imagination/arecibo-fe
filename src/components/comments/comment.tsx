@@ -8,6 +8,7 @@ import { IComment } from '@/types/comment'
 import CommentAdd from './commentAdd'
 import CommentLikeButton from './commentLike'
 import CommentOption from './commentOption'
+import CommentModify from '@/components/comments/commentModify'
 
 interface Props {
     comment: IComment
@@ -24,6 +25,7 @@ dayjs.updateLocale('en', {
 
 export default function Comment({ comment }: Props) {
     const [showCommentAdd, setShowCommentAdd] = useState(false)
+    const [modifyComment, setModifyComment] = useState(false)
     const timeDifference = dayjs(comment.createdAt.toString()).fromNow()
     // TODO: depth 1 이상인 comment 처리 방법 변경
     const parentCommentId = comment.isNested ? comment.parentCommentId : comment._id
@@ -48,19 +50,37 @@ export default function Comment({ comment }: Props) {
                     <h5 className="text-lg font-medium leading-tight text-[#636363] dark:text-neutral-50">{comment.author.nickname}</h5>
                     <div className="text-sm font-medium leading-tight px-2 text-[#636363] dark:text-neutral-50">{timeDifference}</div>
                 </div>
-                <CommentOption planetId={comment.planetId} messageId={comment.messageId} commentId={comment._id} isAuthor={comment.isAuthor} />
+                <CommentOption
+                    planetId={comment.planetId}
+                    messageId={comment.messageId}
+                    commentId={comment._id}
+                    isAuthor={comment.isAuthor}
+                    modifyState={setModifyComment}
+                />
             </div>
             <div className="pt-1 border-l-2">
-                <div className="ql-snow">
-                    <div className="ql-editor" dangerouslySetInnerHTML={{ __html: comment.text }}></div>
-                </div>
-                <div className="flex flex-row justify-start px-2 text-sm text-[#636363] dark:text-neutral-50">
-                    <CommentLikeButton key={comment._id} id={commentLikeData} isLiked={comment.isLiked} count={comment.likeCount} />
-                    <button onClick={toggleCommentAdd} className="px-2">
-                        replies {comment.comments.length}
-                    </button>
-                </div>
-                {showCommentAdd && <CommentAdd key={comment._id} data={nestedCommentAddData} isShow={toggleCommentAdd} />}
+                {modifyComment ? (
+                    <CommentModify
+                        planetId={comment.planetId}
+                        messageId={comment.messageId}
+                        commentId={comment._id}
+                        text={comment.text}
+                        modifyState={setModifyComment}
+                    />
+                ) : (
+                    <div>
+                        <div className="ql-snow">
+                            <div className="ql-editor" dangerouslySetInnerHTML={{ __html: comment.text }}></div>
+                        </div>
+                        <div className="flex flex-row justify-start px-2 text-sm text-[#636363] dark:text-neutral-50">
+                            <CommentLikeButton key={comment._id} id={commentLikeData} isLiked={comment.isLiked} count={comment.likeCount} />
+                            <button onClick={toggleCommentAdd} className="px-2">
+                                replies {comment.comments.length}
+                            </button>
+                        </div>
+                        {showCommentAdd && <CommentAdd key={comment._id} data={nestedCommentAddData} isShow={toggleCommentAdd} />}
+                    </div>
+                )}
                 {comment.comments && comment.comments.map(nestedComment => <Comment key={nestedComment._id} comment={nestedComment} />)}
             </div>
         </div>

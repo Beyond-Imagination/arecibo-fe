@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Dispatch, SetStateAction } from 'react'
 import { useRouter } from 'next/navigation'
 import { useMutation, useQueryClient } from 'react-query'
 import { useAlien } from '@/providers'
@@ -11,9 +11,10 @@ interface Props {
     messageId: string
     commentId: string
     isAuthor: boolean
+    modifyState: Dispatch<SetStateAction<boolean>>
 }
 
-export default function CommentOption({ planetId, messageId, commentId, isAuthor }: Props) {
+export default function CommentOption({ planetId, messageId, commentId, isAuthor, modifyState }: Props) {
     const alien = useAlien()
     const queryClient = useQueryClient()
     const router = useRouter()
@@ -45,10 +46,18 @@ export default function CommentOption({ planetId, messageId, commentId, isAuthor
         mutation.mutate(request)
     }
 
+    const modifyToggle = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        event.preventDefault()
+        modifyState(true)
+    }
+
     return (
         <Dropdown>
-            {/*TODO: make Link to message modify page*/}
-            {isAuthor && <button className="p-2">modify</button>}
+            {isAuthor && (
+                <button className="p-2" onClick={modifyToggle}>
+                    modify
+                </button>
+            )}
             {isAuthor && (
                 <button className="p-2" onClick={deleteToggle}>
                     delete

@@ -8,6 +8,7 @@ import {
     IPostCommentLikeResponse,
     IGetCommentListResponse,
     IDeleteCommentRequest,
+    IPutCommentRequest,
 } from '@/types'
 
 export async function getComments({ queryKey }: QueryFunctionContext<[string, string, string, object, IAlien]>): Promise<IGetCommentListResponse> {
@@ -67,6 +68,20 @@ export async function deleteComment(request: IDeleteCommentRequest): Promise<voi
             Authorization: `Bearer ${request.secret.token}`,
             'Content-Type': 'application/json',
         },
+    })
+    if (!res.ok) {
+        throw new Error('network response was not ok')
+    }
+}
+
+export async function modifyComment(request: IPutCommentRequest): Promise<void> {
+    const res = await fetch(`${SERVER_URL}/v1/planets/${request.uri.planetId}/messages/${request.uri.messageId}/comments/${request.uri.commentId}`, {
+        method: 'PUT',
+        headers: {
+            Authorization: `Bearer ${request.secret.token}`,
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(request.body),
     })
     if (!res.ok) {
         throw new Error('network response was not ok')

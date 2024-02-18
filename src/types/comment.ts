@@ -70,3 +70,17 @@ export interface IDeleteCommentRequest {
         token: string
     }
 }
+
+export interface IPutCommentRequest {
+    body: {
+        text: string
+    }
+    uri: {
+        planetId: string
+        messageId: string
+        commentId: string
+    }
+    secret: {
+        token: string
+    }
+}
