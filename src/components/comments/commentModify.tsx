@@ -4,7 +4,7 @@ import { useMutation, useQueryClient } from 'react-query'
 import { IPutCommentRequest } from '@/types'
 import { useAlien } from '@/providers'
 import { modifyComment } from '@/api'
-import { CommentAddLoading } from '@/components/loading'
+import { CommentFormLoading } from '@/components/loading'
 import FormError from '@/components/formError'
 import { Dispatch, SetStateAction } from 'react'
 
@@ -62,7 +62,7 @@ export default function CommentModify({ planetId, messageId, commentId, text, mo
         <div className="block w-full p-2 my rounded-lg">
             <form onSubmit={handleSubmit(onSubmit)}>
                 {mutation.isLoading ? (
-                    <CommentAddLoading />
+                    <CommentFormLoading />
                 ) : (
                     <input
                         id="modify/text"

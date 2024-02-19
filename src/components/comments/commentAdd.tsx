@@ -5,7 +5,7 @@ import { IPostCommentRequest } from '@/types/comment'
 import { postComment } from '@/api/comment'
 import { useAlien } from '@/providers'
 import FormError from '@/components/formError'
-import { CommentAddLoading } from '@/components/loading'
+import { CommentFormLoading } from '@/components/loading'
 
 interface Props {
     data: {
@@ -70,7 +70,7 @@ export default function CommentAdd({ data, isShow }: Props) {
                 <div className="rounded mx-2 text-white bg-[#A5A5A5] dark:bg-[#727272]">
                     <div className="p-2">Write your comment</div>
                     {mutation.isLoading ? (
-                        <CommentAddLoading />
+                        <CommentFormLoading />
                     ) : (
                         <input
                             id="create/text"

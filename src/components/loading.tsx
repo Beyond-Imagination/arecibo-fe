@@ -58,7 +58,7 @@ export function MessageListLoading() {
     )
 }
 
-export function CommentAddLoading() {
+export function CommentFormLoading() {
     return (
         <div className="flex flex-col rounded items-center w-full h-16 bg-white">
             <FadeLoader color="#646464" />
