@@ -9,7 +9,7 @@ export default function Error({ error, reset }: { error: Error & { digest?: stri
     }, [error])
 
     return (
-        <div className="text-center">
+        <div className="flex flex-col items-center text-center w-full h-full pt-10">
             <h2>{error.message || 'Something went wrong!'}</h2>
             <button
                 type="button"

@@ -129,6 +129,7 @@ export default function Create() {
                             placeholder="Text"
                         />
                     </div>
+                    {errorMessage && <FormError errorMessage={errorMessage} />}
                     <div className="flex flex-row justify-end gap-2 px-2">
                         <button
                             type="button"
@@ -145,7 +146,6 @@ export default function Create() {
                             Post
                         </button>
                     </div>
-                    {errorMessage && <FormError errorMessage={errorMessage} />}
                 </form>
             </div>
         </div>

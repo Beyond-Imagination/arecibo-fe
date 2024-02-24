@@ -79,6 +79,7 @@ export default function CommentAdd({ data, isShow }: Props) {
                         />
                     )}
                 </div>
+                {errorMessage && <FormError errorMessage={errorMessage} />}
                 <div className="flex flex-row justify-end p-2">
                     <button
                         type="submit"
@@ -88,7 +89,6 @@ export default function CommentAdd({ data, isShow }: Props) {
                         Comment
                     </button>
                 </div>
-                {errorMessage && <FormError errorMessage={errorMessage} />}
             </form>
         </div>
     )

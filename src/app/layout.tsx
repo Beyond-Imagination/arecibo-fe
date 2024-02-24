@@ -33,7 +33,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
                 <QueryClientProvider client={queryClient}>
                     <AuthProvider>
                         <Header />
-                        <div className="flex flex-row p-4">
+                        <div className="flex flex-row w-full h-full p-4">
                             <Menu />
                             {children}
                         </div>

@@ -71,6 +71,7 @@ export default function CommentModify({ planetId, messageId, commentId, text, mo
                         {...register('text', { required: 'text is required' })}
                     />
                 )}
+                {errorMessage && <FormError errorMessage={errorMessage} />}
                 <div className="flex flex-row justify-end">
                     <button
                         type="submit"
@@ -80,7 +81,6 @@ export default function CommentModify({ planetId, messageId, commentId, text, mo
                         Comment
                     </button>
                 </div>
-                {errorMessage && <FormError errorMessage={errorMessage} />}
             </form>
         </div>
     )
