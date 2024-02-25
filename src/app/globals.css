@@ -3,25 +3,63 @@
 @tailwind utilities;
 
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+  --foreground-rgb: 10, 10, 10;
+  --background-rgb: 255, 255, 255;
+  --profile-border-rgb: 208, 215, 222;
+  --profile-background-rgb: 246, 248, 250;
+  --profile-input-focus-background-rgb: 255, 255, 255;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+    --foreground-rgb:  242, 242, 242;
+    --background-rgb: 24, 25, 27;
+    --profile-border-rgb: 48, 54, 61;
+    --profile-background-rgb: 13, 17, 22;
+    --profile-input-focus-background-rgb: 2, 4, 10;
   }
 }
 
 body {
   color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  background: rgb(var(--background-rgb));
+}
+
+input:focus {
+  outline:none;
+  border-width: 2px;
+  border-color: #0066cc;
+}
+
+.profile .content-item {
+  border-width: 1px;
+  border-color: rgb(var(--profile-border-rgb));
+  border-radius: 0.5rem;
+  background-color: rgb(var(--profile-background-rgb));
+  width: 60%;
+  height: 2.5rem;
+  padding: 8px 12px;
+  font-weight: 400;
+}
+
+.profile .input-item {
+  border-width: 1px;
+  border-color: rgb(var(--profile-border-rgb));
+  border-radius: 0.5rem;
+  background-color: rgb(var(--profile-background-rgb));
+  width: 60%;
+  height: 2.5rem;
+  padding: 4px 12px;
+  font-weight: 400;
+}
+
+.profile .input-item:focus {
+  background-color: rgb(var(--profile-input-focus-background-rgb));
+}
+
+.note {
+  min-height: 17px;
+  margin: 4px 0 2px;
+  font-size: 12px;
+  color: rgb(87, 96, 106);
 }

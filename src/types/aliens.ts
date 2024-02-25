@@ -12,4 +12,13 @@ export interface ILoginRequest {
     }
 }
 
+export interface IUpdateNicknameRequest {
+    body: {
+        nickname: string
+    }
+    secret: {
+        token: string
+    }
+}
+
 export interface ILoginResponse extends IAlien {}
