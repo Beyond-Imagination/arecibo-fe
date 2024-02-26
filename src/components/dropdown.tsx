@@ -12,17 +12,19 @@ export default function Dropdown({ children }: Props) {
     }
     return (
         <div className="inline-block" onClick={dropShowToggle}>
-            <div className="px-2 text-[#636363] bg:text-white items-center">
+            <div className="items-center w-6 h-6">
                 <OptionIcon />
             </div>
-            <article className="absolute rounded-lg shadow-xl shadow-gray-300 z-30 -translate-x-2 transition-opacity duration-300 bg-white dark:shadow-[#242424] dark:bg-neutral-500">
-                {open && (
-                    <ul className="text-sm text-[#636363] dark:text-white">
+            {open && (
+                <article className="absolute border rounded-md z-30 translate-y-1 dark:bg-[#18191b]">
+                    <ul className="text-sm p-1">
                         {children &&
-                            React.Children.map(children, child => <li className="rounded-md hover:bg-gray-200 dark:hover:bg-[#363636]">{child}</li>)}
+                            React.Children.map(children, child => (
+                                <li className="rounded-md hover:bg-gray-200 dark:hover:bg-[#ffffff26]">{child}</li>
+                            ))}
                     </ul>
-                )}
-            </article>
+                </article>
+            )}
         </div>
     )
 }

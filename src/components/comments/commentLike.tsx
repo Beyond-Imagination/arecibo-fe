@@ -60,7 +60,7 @@ export default function CommentLikeButton({ id, count, isLiked }: Props) {
 
     return (
         <div className="flex flex-row">
-            <button type="button" className="flex-1 rounded-2xl w-7 p-1 my-2 hover:bg-gray-300" onClick={onClick}>
+            <button type="button" className={`flex-1 rounded-xl w-7 p-1 my-2 hover:bg-neutral-300 hover:dark:bg-[#ffffff26]`} onClick={onClick}>
                 {isLikedState ? <UnLike /> : <Like />}
             </button>
             <p className="flex-none my-2 py-1 ms-2">{countState}</p>

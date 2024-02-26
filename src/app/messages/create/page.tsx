@@ -108,24 +108,24 @@ export default function Create() {
 
     return (
         <div className="flex flex-col justify-start w-full min-h-screen p-12">
-            <p className="text-4xl p-2">{title}</p>
-            <div className="block w-full p-6 my rounded-lg bg-white dark:bg-neutral-700">
+            <p className="text-4xl">{title}</p>
+            <div className="border-2 block rounded-lg w-full p-6 mt-2">
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <div className="p-2">
                         <input
                             id="create/title"
-                            className="border rounded w-full h-10 p-1 border-[#CCCCCC] dark:text-[#3E3E3E]"
+                            className="border rounded w-full h-10 p-1 px-3 dark:bg-[#18191b]"
                             placeholder="Title"
                             {...register('title', { required: 'title is required' })}
                         />
                     </div>
-                    <div className="p-2 dark:text-[#3E3E3E]">
+                    <div className="p-2">
                         <TextEditor
                             theme="snow"
                             modules={modules}
                             formats={formats}
                             onChange={handleChange}
-                            className="border rounded bg-white"
+                            className="dark:bg-[#18191b]"
                             placeholder="Text"
                         />
                     </div>
@@ -133,7 +133,7 @@ export default function Create() {
                     <div className="flex flex-row justify-end gap-2 px-2">
                         <button
                             type="button"
-                            className="rounded-lg border text-base font-medium py-1 px-6 my-1 text-[#3E3E3E] bg-white border-[#868686]"
+                            className="rounded-lg border text-base font-medium py-1 px-6 my-1 hover:border-[#afafbe] hover:dark:border-[#ffffff80]"
                             onClick={() => router.back()}
                         >
                             Cancel
@@ -141,7 +141,7 @@ export default function Create() {
                         <button
                             type="submit"
                             disabled={isSubmitting}
-                            className="rounded-lg border text-base font-medium py-1 px-6 my-1 text-[#FEFEFE] bg-[#A5A5A5] border-[#868686]"
+                            className="rounded-lg border text-base font-medium py-1 px-6 my-1 text-white bg-blue-700"
                         >
                             Post
                         </button>

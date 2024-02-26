@@ -33,12 +33,12 @@ export default function Page() {
         parentCommentId: '',
     }
     return (
-        <div className="flex flex-col justify-start w-full min-h-screen p-12">
-            <div className="flex flex-row justify-between w-full">
+        <div className="flex flex-col justify-start w-full h-full p-12">
+            <div className="flex flex-row justify-between w-full my-2">
                 <p className="text-4xl">{title}</p>
             </div>
             <Message key={planetId} planetId={planetId} message={data} title={title} />
-            <div className="my-3 bg-white rounded-lg dark:bg-neutral-700">
+            <div className="border-2 rounded-lg p-2 my-2">
                 <CommentAdd data={commentAddData} isShow={() => {}} />
                 <CommentList planetId={planetId} messageId={messageId} />
             </div>

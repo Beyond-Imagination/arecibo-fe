@@ -37,8 +37,8 @@ export default function Paginate({ page }: Props) {
                             href={pathname + '?' + createQueryString(page.page - 1)}
                             className={`relative block rounded px-3 py-1.5 text-lx transition-all duration-300 ${
                                 page.hasPrevPage
-                                    ? 'text-neutral-600 hover:bg-neutral-200 dark:text-white dark:hover:bg-neutral-500 dark:hover:text-white'
-                                    : 'pointer-events-none text-neutral-300 dark:text-neutral-400'
+                                    ? 'hover:bg-neutral-200 dark:hover:bg-[#ffffff26]'
+                                    : 'pointer-events-none text-neutral-300 dark:text-[#818284]'
                             }`}
                         >
                             Previous
@@ -51,8 +51,8 @@ export default function Paginate({ page }: Props) {
                                     href={pathname + '?' + createQueryString(pageNumber)}
                                     className={`relative block rounded px-3 py-1.5 me-1 text-lx ${
                                         pageNumber === page.page
-                                            ? 'pointer-events-none text-neutral-600 bg-neutral-200 dark:text-white dark:bg-neutral-500'
-                                            : 'text-neutral-600 hover:bg-neutral-200 dark:text-white dark:hover:bg-neutral-500 dark:hover:text-white'
+                                            ? 'pointer-events-none bg-neutral-200 dark:bg-[#ffffff26]'
+                                            : 'hover:bg-neutral-200 dark:hover:bg-[#ffffff26]'
                                     } transition-all duration-300`}
                                 >
                                     {pageNumber}
@@ -64,8 +64,8 @@ export default function Paginate({ page }: Props) {
                             href={pathname + '?' + createQueryString(page.page + 1)}
                             className={`relative block rounded px-3 py-1.5 text-lx transition-all duration-300 ${
                                 page.hasNextPage
-                                    ? 'text-neutral-600 hover:bg-neutral-200 dark:text-white dark:hover:bg-neutral-500 dark:hover:text-white'
-                                    : 'pointer-events-none text-neutral-300 dark:text-neutral-400'
+                                    ? 'hover:bg-neutral-200 dark:hover:bg-[#ffffff26]'
+                                    : 'pointer-events-none text-neutral-300 dark:text-[#818284]'
                             }`}
                         >
                             Next

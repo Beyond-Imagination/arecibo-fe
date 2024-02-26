@@ -43,12 +43,12 @@ export default function Comment({ comment }: Props) {
         setShowCommentAdd(!showCommentAdd)
     }
     return (
-        <div id={comment._id} className="block px-6 my-3">
+        <div id={comment._id} className="block px-2 my-3">
             <div className="flex flex-row justify-between">
                 <div className="flex flex-row items-center justify-start align-center">
                     <Image src="/images/alien.png" width={8} height={8} alt="Alien Image" className="w-8 h-8 rounded-full me-2" />
-                    <h5 className="text-lg font-medium leading-tight text-[#636363] dark:text-neutral-50">{comment.author.nickname}</h5>
-                    <div className="text-sm font-medium leading-tight px-2 text-[#636363] dark:text-neutral-50">{timeDifference}</div>
+                    <h5 className="text-lg font-medium leading-tight">{comment.author.nickname}</h5>
+                    <div className="text-sm font-medium leading-tight px-2 text-[#818284]">{timeDifference}</div>
                 </div>
                 <CommentOption
                     planetId={comment.planetId}
@@ -68,13 +68,16 @@ export default function Comment({ comment }: Props) {
                         modifyState={setModifyComment}
                     />
                 ) : (
-                    <div>
+                    <div className="px-2">
                         <div className="ql-snow">
                             <div className="ql-editor" dangerouslySetInnerHTML={{ __html: comment.text }}></div>
                         </div>
-                        <div className="flex flex-row justify-start px-2 text-sm text-[#636363] dark:text-neutral-50">
+                        <div className="flex flex-row justify-start text-sm">
                             <CommentLikeButton key={comment._id} id={commentLikeData} isLiked={comment.isLiked} count={comment.likeCount} />
-                            <button onClick={toggleCommentAdd} className="px-2">
+                            <button
+                                onClick={toggleCommentAdd}
+                                className="rounded-3xl text-xs m-2 px-2 hover:bg-neutral-300 hover:dark:bg-[#ffffff26]"
+                            >
                                 replies {comment.comments.length}
                             </button>
                         </div>

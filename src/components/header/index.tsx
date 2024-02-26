@@ -16,7 +16,7 @@ export default function Header() {
                     <p>{alien.nickname}</p>
                 </Link>
             </div>
-            <div className="flex-1 mx-8 border-t-2 border-black"></div>
+            <div className="flex-1 me-8 ms-4 border-t-2"></div>
             {/* 가로선 */}
         </div>
     )

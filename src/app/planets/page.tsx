@@ -35,12 +35,12 @@ export default function Page() {
 
     // TODO: add sort button
     return (
-        <div className="flex flex-col justify-start w-full min-h-screen p-12">
+        <div className="flex flex-col justify-start w-full h-full p-12">
             <div className="flex flex-row justify-between w-full">
                 <p className="text-4xl">{title}</p>
                 <Link
                     href={`/messages/create?planetId=${planetId}&title=${title}`}
-                    className="rounded-full border-2 border-[#EFF8F5] px-6 text-xs font-medium my-1 text-[#3E3E3E] bg-[#EFF8F5]"
+                    className="rounded-md px-4 text-xs font-medium my-1 text-white bg-blue-700"
                 >
                     <div className="my-2">Create a Post</div>
                 </Link>

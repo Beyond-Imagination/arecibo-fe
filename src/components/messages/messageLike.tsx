@@ -55,10 +55,8 @@ export default function MessageLikeButton({ planetId, messageId, count, isLiked 
     return (
         <button
             type="button"
-            className={`flex items-center rounded-full border-2 px-3 text-xs font-medium ${
-                isLikedState
-                    ? 'text-[#EFEFEF] border-[#727272] bg-[#727272] dark:text-[#EFEFEF] dark:border-[#242424] dark:bg-[#242424]'
-                    : 'text-[#727272] border-[#EFEFEF] bg-[#EFEFEF] dark:text-[#EFEFEF] dark:border-[#727272] dark:bg-[#727272]'
+            className={`flex items-center rounded-full px-3 text-xs font-medium ${
+                isLikedState ? 'text-white bg-[#fe6d70]' : 'bg-[#EFEFEF] dark:bg-[#818284]'
             }`}
             onClick={onClick}
         >

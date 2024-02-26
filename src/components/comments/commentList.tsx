@@ -30,7 +30,7 @@ export default function CommentList({ planetId, messageId }: Props) {
         })?.data || ({} as IGetCommentListResponse)
 
     return (
-        <div className="flex flex-col border-t-2 px-2 mt-2 mx-2">
+        <div className="flex flex-col border-t-2 mt-2 mx-2">
             <div className="pb-3">{data.comments && data.comments.map(comment => <Comment key={comment._id} comment={comment} />)}</div>
             {data.page && <Paginate page={data.page} />}
         </div>
