@@ -14,12 +14,13 @@ interface Inputs {
 }
 
 export default function Page() {
-    const alien = useAlien()
+    const { alien, updateAlien } = useAlien()
     const router = useRouter()
     const {
         register,
         handleSubmit,
         setError,
+        getValues,
         formState: { isSubmitting, errors },
     } = useForm<Inputs>()
     const errorMessage = errors?.nickname?.message
@@ -28,6 +29,8 @@ export default function Page() {
             return updateNickname(request)
         },
         onSuccess: async () => {
+            alien.nickname = getValues('nickname')
+            updateAlien(alien)
             router.push('/aliens/detail')
         },
     })
@@ -64,6 +67,7 @@ export default function Page() {
                             defaultValue={alien.nickname}
                             className="input-item"
                             {...register('nickname', { required: 'nickname is required' })}
+                            readOnly={isSubmitting || mutation.isLoading}
                         />
                         {/*TODO: display theLastNicknameUpdatedTime*/}
                         <div className="note">

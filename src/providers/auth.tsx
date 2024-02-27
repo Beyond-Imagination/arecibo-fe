@@ -6,7 +6,12 @@ import { postLogin } from '@/api'
 import { useCredential } from '@/hooks'
 import { AuthLoading } from '@/components/loading'
 
-const authContext = createContext<IAlien | null>(null)
+interface IAuthContext {
+    alien: IAlien
+    updateAlien: (updatedAlien: IAlien) => void
+}
+
+const authContext = createContext<IAuthContext | null>(null)
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
     const [alien, setAlien] = useState<IAlien | null>(null)
@@ -18,6 +23,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             setAlien(alien) // TODO: login 정보 timeout 구현
         },
     })
+
     const credential = useCredential()
     useEffect(() => {
         if (credential) {
@@ -33,17 +39,21 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         }
     }, [credential])
 
+    const updateAlien = (updatedAlien: IAlien) => {
+        setAlien(updatedAlien)
+    }
+
     if (!credential || !alien) {
         return <AuthLoading />
     }
 
     return (
-        <authContext.Provider value={{ jwt: alien.jwt, nickname: alien.nickname }}>
+        <authContext.Provider value={{ alien, updateAlien }}>
             <>{children}</>
         </authContext.Provider>
     )
 }
 
-export const useAlien = (): IAlien => {
+export const useAlien = (): IAuthContext => {
     return useContext(authContext)!
 }

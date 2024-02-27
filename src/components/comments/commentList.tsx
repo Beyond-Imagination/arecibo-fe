@@ -21,7 +21,7 @@ export default function CommentList({ planetId, messageId }: Props) {
         sort: searchParams.get('sort') || 'latest',
     }
 
-    const alien = useAlien()
+    const { alien } = useAlien()
     const data =
         useQuery(['commentList', planetId, messageId, query, alien], getComments, {
             enabled: !!alien && !!planetId && !!messageId,

@@ -15,7 +15,7 @@ interface Props {
 }
 
 export default function CommentOption({ planetId, messageId, commentId, isAuthor, modifyState }: Props) {
-    const alien = useAlien()
+    const { alien } = useAlien()
     const queryClient = useQueryClient()
     const router = useRouter()
     const mutation = useMutation({

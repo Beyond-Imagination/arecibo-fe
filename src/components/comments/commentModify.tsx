@@ -28,7 +28,7 @@ export default function CommentModify({ planetId, messageId, commentId, text, mo
     } = useForm<Inputs>()
 
     const errorMessage = errors?.text?.message
-    const alien = useAlien()
+    const { alien } = useAlien()
     const router = useRouter()
     const queryClient = useQueryClient()
     const mutation = useMutation({

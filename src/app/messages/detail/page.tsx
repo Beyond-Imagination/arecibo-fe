@@ -20,7 +20,7 @@ export default function Page() {
         throw new Error('400 Bad Request')
     }
 
-    const alien = useAlien()
+    const { alien } = useAlien()
     const data =
         useQuery(['message', planetId, messageId, alien], getMessage, {
             enabled: !!alien,

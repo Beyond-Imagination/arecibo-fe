@@ -25,7 +25,7 @@ export default function Page() {
         sort: searchParams.get('sort') || 'latest',
     }
 
-    const alien = useAlien()
+    const { alien } = useAlien()
     const data =
         useQuery(['messageList', planetId, query, alien], getMessages, {
             enabled: !!alien && !!planetId,

@@ -26,7 +26,7 @@ export default function Create() {
         throw new Error('400 Bad Request')
     }
 
-    const alien = useAlien()
+    const { alien } = useAlien()
     const {
         register,
         handleSubmit,

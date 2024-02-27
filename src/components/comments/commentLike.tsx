@@ -17,7 +17,7 @@ interface Props {
 }
 
 export default function CommentLikeButton({ id, count, isLiked }: Props) {
-    const alien = useAlien()
+    const { alien } = useAlien()
     const queryClient = useQueryClient()
 
     const [isLikedState, setIsLikedState] = useState(isLiked)

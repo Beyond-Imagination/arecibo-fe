@@ -14,7 +14,7 @@ interface Props {
 }
 
 export default function MessageOption({ planetId, messageId, isAuthor, title }: Props) {
-    const alien = useAlien()
+    const { alien } = useAlien()
     const queryClient = useQueryClient()
     const router = useRouter()
     const mutation = useMutation({

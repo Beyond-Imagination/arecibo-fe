@@ -7,7 +7,7 @@ import { getPlanets } from '@/api'
 import PlanetLink from '@/components/menu/planetLink'
 
 export default function Menu() {
-    const alien = useAlien()
+    const { alien } = useAlien()
     const router = useRouter()
     const pathName = usePathname()
 

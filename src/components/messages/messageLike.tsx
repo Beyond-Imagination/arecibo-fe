@@ -14,7 +14,7 @@ interface Props {
 }
 
 export default function MessageLikeButton({ planetId, messageId, count, isLiked }: Props) {
-    const alien = useAlien()
+    const { alien } = useAlien()
     const queryClient = useQueryClient()
 
     const [isLikedState, setIsLikedState] = useState(isLiked)

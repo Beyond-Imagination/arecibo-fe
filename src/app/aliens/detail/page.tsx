@@ -5,7 +5,7 @@ import Link from 'next/link'
 
 // TODO: get alien information
 export default function Page() {
-    const alien = useAlien()
+    const { alien } = useAlien()
 
     return (
         <div className="flex flex-col justify-start w-full min-h-screen p-12">
