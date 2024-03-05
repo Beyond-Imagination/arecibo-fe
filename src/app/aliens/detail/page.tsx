@@ -1,11 +1,31 @@
 'use client'
 
 import { useAlien } from '@/providers'
+import React, { useMemo, useState } from 'react'
 import Link from 'next/link'
+import { useQuery } from 'react-query'
+import dayjs from 'dayjs'
+import { getAlienDetail } from '@/api'
+import { IGetAlienDetailResponse } from '@/types'
+import NicknameUpdateStatus from '@/components/aliens/nicknameUpdateStatus'
 
-// TODO: get alien information
 export default function Page() {
     const { alien } = useAlien()
+    const data =
+        useQuery(['aliens', alien], getAlienDetail, {
+            enabled: !!alien,
+            refetchOnWindowFocus: false,
+            suspense: true,
+        })?.data || ({} as IGetAlienDetailResponse)
+    const updateTime = useMemo(() => {
+        return dayjs(data.lastNicknameUpdateTime).add(1, 'h').toDate()
+    }, [])
+    const [isNicknameUpdateAllow, setIsNicknameUpdateAllow] = useState(updateTime.getTime() <= Date.now())
+    const linkHandler = (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+        if (!isNicknameUpdateAllow) {
+            event.preventDefault()
+        }
+    }
 
     return (
         <div className="flex flex-col justify-start w-full min-h-screen p-12">
@@ -16,10 +36,18 @@ export default function Page() {
                         Nickname
                     </label>
                     <div id="nickname" className="content-item">
-                        {alien.nickname}
+                        {data.nickname}
                     </div>
+                    <NicknameUpdateStatus
+                        updateTime={updateTime}
+                        isUpdateAllow={{ state: isNicknameUpdateAllow, setter: setIsNicknameUpdateAllow }}
+                    />
                 </div>
-                <Link href={'/aliens/modify'} className="rounded-lg font-medium text-sm px-3 py-3 my-3 me-2 text-white bg-blue-700">
+                <Link
+                    href={'/aliens/modify'}
+                    className="rounded-lg font-medium text-sm px-3 py-3 my-3 me-2 text-white bg-blue-700"
+                    onClick={linkHandler}
+                >
                     Modify
                 </Link>
             </div>

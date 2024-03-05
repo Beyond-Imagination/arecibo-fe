@@ -22,3 +22,8 @@ export interface IUpdateNicknameRequest {
 }
 
 export interface ILoginResponse extends IAlien {}
+
+export interface IGetAlienDetailResponse {
+    nickname: string
+    lastNicknameUpdateTime: Date
+}
