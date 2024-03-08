@@ -37,7 +37,7 @@ export default function Message({ planetId, title, message }: Props) {
                 </div>
                 <div className="flex flex-row align-center justify-end">
                     <div className="text-1 font-medium leading-tight text-[#818284]">{timeDifference}</div>
-                    <MessageOption planetId={planetId} messageId={message._id} isAuthor={message.isAuthor} title={title} />
+                    <MessageOption planetId={planetId} message={message} title={title} />
                 </div>
             </div>
             <div className="pb-1">

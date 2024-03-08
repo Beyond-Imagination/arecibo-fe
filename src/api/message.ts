@@ -9,6 +9,7 @@ import {
     IPostMessageLikeRequest,
     IPostMessageLikeResponse,
     IPostMessageRequest,
+    IPutMessageRequest,
 } from '@/types'
 
 export async function getMessage({ queryKey }: QueryFunctionContext<[string, string, string, IAlien]>): Promise<IGetMessageResponse> {
@@ -43,6 +44,20 @@ export async function getMessages({ queryKey }: QueryFunctionContext<[string, st
 export async function postMessage(request: IPostMessageRequest): Promise<void> {
     const res = await fetch(`${SERVER_URL}/v1/planets/${request.uri.planetId}/messages`, {
         method: 'POST',
+        headers: {
+            Authorization: `Bearer ${request.secret.token}`,
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(request.body),
+    })
+    if (!res.ok) {
+        throw new Error('network response was not ok')
+    }
+}
+
+export async function putMessage(request: IPutMessageRequest): Promise<void> {
+    const res = await fetch(`${SERVER_URL}/v1/planets/${request.uri.planetId}/messages/${request.uri.messageId}`, {
+        method: 'PUT',
         headers: {
             Authorization: `Bearer ${request.secret.token}`,
             'Content-Type': 'application/json',

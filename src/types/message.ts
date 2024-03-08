@@ -15,6 +15,11 @@ export interface IMessage {
     updatedAt: Date
 }
 
+export interface IMessageFormInputs {
+    title: string
+    content: string
+}
+
 export interface IGetMessageResponse extends IMessage {}
 
 export interface IGetMessageListResponse {
@@ -39,6 +44,13 @@ export interface IPostMessageRequest {
     }
     secret: {
         token: string
+    }
+}
+
+export interface IPutMessageRequest extends IPostMessageRequest {
+    uri: {
+        planetId: string
+        messageId: string
     }
 }
 
