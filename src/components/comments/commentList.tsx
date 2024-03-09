@@ -4,7 +4,7 @@ import { useSearchParams } from 'next/navigation'
 import Comment from './comment'
 import { getComments } from '@/api'
 import { IGetCommentListResponse } from '@/types'
-import { useAlien } from '@/providers'
+import { useAuthorization } from '@/providers'
 import Paginate from '@/components/paginate'
 
 interface Props {
@@ -21,10 +21,10 @@ export default function CommentList({ planetId, messageId }: Props) {
         sort: searchParams.get('sort') || 'latest',
     }
 
-    const { alien } = useAlien()
+    const auth = useAuthorization()
     const data =
-        useQuery(['commentList', planetId, messageId, query, alien], getComments, {
-            enabled: !!alien && !!planetId && !!messageId,
+        useQuery(['commentList', planetId, messageId, query, auth], getComments, {
+            enabled: !!auth && !!planetId && !!messageId,
             refetchOnWindowFocus: false,
             suspense: true,
         })?.data || ({} as IGetCommentListResponse)

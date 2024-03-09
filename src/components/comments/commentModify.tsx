@@ -2,7 +2,7 @@ import { SubmitHandler, useForm } from 'react-hook-form'
 import { useRouter } from 'next/navigation'
 import { useMutation, useQueryClient } from 'react-query'
 import { IPutCommentRequest } from '@/types'
-import { useAlien } from '@/providers'
+import { useAuthorization } from '@/providers'
 import { modifyComment } from '@/api'
 import { CommentFormLoading } from '@/components/loading'
 import FormError from '@/components/formError'
@@ -28,7 +28,7 @@ export default function CommentModify({ planetId, messageId, commentId, text, mo
     } = useForm<Inputs>()
 
     const errorMessage = errors?.text?.message
-    const { alien } = useAlien()
+    const auth = useAuthorization()
     const router = useRouter()
     const queryClient = useQueryClient()
     const mutation = useMutation({
@@ -52,7 +52,7 @@ export default function CommentModify({ planetId, messageId, commentId, text, mo
                 text: input.text,
             },
             secret: {
-                token: alien.jwt,
+                token: auth.jwt,
             },
         }
         mutation.mutate(request)

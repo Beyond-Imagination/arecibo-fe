@@ -1,9 +1,9 @@
 'use client'
 
 import { SubmitHandler, useForm } from 'react-hook-form'
-import { useMutation } from 'react-query'
-import { useRouter } from 'next/navigation'
-import { useAlien } from '@/providers'
+import { useMutation, useQueryClient } from 'react-query'
+import { useRouter, useSearchParams } from 'next/navigation'
+import { useAuthorization } from '@/providers'
 import { IUpdateNicknameRequest } from '@/types'
 import { updateNickname } from '@/api'
 import FormError from '@/components/formError'
@@ -14,28 +14,34 @@ interface Inputs {
 }
 
 export default function Page() {
-    const { alien, updateAlien } = useAlien()
+    const searchParams = useSearchParams()
+    const nickname = searchParams.get('nickname')
+
+    if (!nickname) {
+        throw new Error('400 Bad Request')
+    }
+
+    const auth = useAuthorization()
     const router = useRouter()
     const {
         register,
         handleSubmit,
         setError,
-        getValues,
         formState: { isSubmitting, errors },
     } = useForm<Inputs>()
     const errorMessage = errors?.nickname?.message
+    const queryClient = useQueryClient()
     const mutation = useMutation({
         mutationFn: (request: IUpdateNicknameRequest) => {
             return updateNickname(request)
         },
         onSuccess: async () => {
-            alien.nickname = getValues('nickname')
-            updateAlien(alien)
+            await queryClient.invalidateQueries(['alienDetail', auth])
             router.push('/aliens/detail')
         },
     })
     const onSubmit: SubmitHandler<Inputs> = (data: Inputs) => {
-        if (data.nickname === alien.nickname) {
+        if (data.nickname === nickname) {
             setError('nickname', {
                 type: 'reject',
                 message: 'You cannot change the nickname to the same one you are using.',
@@ -46,7 +52,7 @@ export default function Page() {
                     nickname: data.nickname,
                 },
                 secret: {
-                    token: alien.jwt,
+                    token: auth.jwt,
                 },
             }
             mutation.mutate(request)
@@ -64,7 +70,7 @@ export default function Page() {
                         </label>
                         <input
                             id="modify/nickname"
-                            defaultValue={alien.nickname}
+                            defaultValue={nickname}
                             className="input-item"
                             {...register('nickname', { required: 'nickname is required' })}
                             readOnly={isSubmitting || mutation.isLoading}

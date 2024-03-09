@@ -2,7 +2,7 @@ import { QueryFunctionContext } from 'react-query'
 
 import { SERVER_URL } from '@/config'
 import {
-    IAlien,
+    IAuthorization,
     IDeleteMessageRequest,
     IGetMessageListResponse,
     IGetMessageResponse,
@@ -12,12 +12,12 @@ import {
     IPutMessageRequest,
 } from '@/types'
 
-export async function getMessage({ queryKey }: QueryFunctionContext<[string, string, string, IAlien]>): Promise<IGetMessageResponse> {
-    const [, planetId, messageId, alien] = queryKey
+export async function getMessage({ queryKey }: QueryFunctionContext<[string, string, string, IAuthorization]>): Promise<IGetMessageResponse> {
+    const [, planetId, messageId, auth] = queryKey
     const res = await fetch(`${SERVER_URL}/v1/planets/${planetId}/messages/${messageId}`, {
         method: 'GET',
         headers: {
-            Authorization: `Bearer ${alien.jwt}`,
+            Authorization: `Bearer ${auth.jwt}`,
         },
     })
     if (!res.ok) {
@@ -26,13 +26,13 @@ export async function getMessage({ queryKey }: QueryFunctionContext<[string, str
     return res.json()
 }
 
-export async function getMessages({ queryKey }: QueryFunctionContext<[string, string, object, IAlien]>): Promise<IGetMessageListResponse> {
-    const [, planetId, query, alien] = queryKey
+export async function getMessages({ queryKey }: QueryFunctionContext<[string, string, object, IAuthorization]>): Promise<IGetMessageListResponse> {
+    const [, planetId, query, auth] = queryKey
     const searchParams = new URLSearchParams({ ...query })
     const res = await fetch(`${SERVER_URL}/v1/planets/${planetId}/messages?${searchParams}`, {
         method: 'GET',
         headers: {
-            Authorization: `Bearer ${alien.jwt}`,
+            Authorization: `Bearer ${auth.jwt}`,
         },
     })
     if (!res.ok) {

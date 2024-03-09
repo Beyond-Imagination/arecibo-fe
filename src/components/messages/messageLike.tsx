@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from 'react-query'
 import React, { useState } from 'react'
 
 import { Like, UnLike } from '@/icon'
-import { useAlien } from '@/providers'
+import { useAuthorization } from '@/providers'
 import { IPostMessageLikeRequest } from '@/types'
 import { postMessageLike } from '@/api'
 
@@ -14,7 +14,7 @@ interface Props {
 }
 
 export default function MessageLikeButton({ planetId, messageId, count, isLiked }: Props) {
-    const { alien } = useAlien()
+    const auth = useAuthorization()
     const queryClient = useQueryClient()
 
     const [isLikedState, setIsLikedState] = useState(isLiked)
@@ -47,7 +47,7 @@ export default function MessageLikeButton({ planetId, messageId, count, isLiked 
                 messageId: messageId,
             },
             secret: {
-                token: alien.jwt,
+                token: auth.jwt,
             },
         }
         mutation.mutate(request)

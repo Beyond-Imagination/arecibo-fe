@@ -1,25 +1,16 @@
 'use client'
 
-import { useAlien } from '@/providers'
 import React, { useMemo, useState } from 'react'
 import Link from 'next/link'
-import { useQuery } from 'react-query'
 import dayjs from 'dayjs'
-import { getAlienDetail } from '@/api'
-import { IGetAlienDetailResponse } from '@/types'
 import NicknameUpdateStatus from '@/components/aliens/nicknameUpdateStatus'
+import { useAlien } from '@/hooks'
 
 export default function Page() {
-    const { alien } = useAlien()
-    const data =
-        useQuery(['aliens', alien], getAlienDetail, {
-            enabled: !!alien,
-            refetchOnWindowFocus: false,
-            suspense: true,
-        })?.data || ({} as IGetAlienDetailResponse)
+    const alien = useAlien()
     const updateTime = useMemo(() => {
-        return dayjs(data.lastNicknameUpdateTime).add(1, 'h').toDate()
-    }, [])
+        return dayjs(alien.lastNicknameUpdateTime).add(1, 'h').toDate()
+    }, [alien])
     const [isNicknameUpdateAllow, setIsNicknameUpdateAllow] = useState(updateTime.getTime() <= Date.now())
     const linkHandler = (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
         if (!isNicknameUpdateAllow) {
@@ -36,7 +27,7 @@ export default function Page() {
                         Nickname
                     </label>
                     <div id="nickname" className="content-item">
-                        {data.nickname}
+                        {alien.nickname}
                     </div>
                     <NicknameUpdateStatus
                         updateTime={updateTime}
@@ -44,7 +35,7 @@ export default function Page() {
                     />
                 </div>
                 <Link
-                    href={'/aliens/modify'}
+                    href={`/aliens/modify?nickname=${alien.nickname}`}
                     className="rounded-lg font-medium text-sm px-3 py-3 my-3 me-2 text-white bg-blue-700"
                     onClick={linkHandler}
                 >

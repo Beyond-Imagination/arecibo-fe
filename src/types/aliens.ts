@@ -1,6 +1,10 @@
-export interface IAlien {
+export interface IAuthorization {
     jwt: string
+}
+
+export interface IAlien {
     nickname: string
+    lastNicknameUpdateTime: Date
 }
 
 export interface ILoginRequest {
@@ -21,9 +25,6 @@ export interface IUpdateNicknameRequest {
     }
 }
 
-export interface ILoginResponse extends IAlien {}
+export interface ILoginResponse extends IAuthorization {}
 
-export interface IGetAlienDetailResponse {
-    nickname: string
-    lastNicknameUpdateTime: Date
-}
+export interface IGetAlienDetailResponse extends IAlien {}

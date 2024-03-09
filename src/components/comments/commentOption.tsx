@@ -1,7 +1,7 @@
 import React, { Dispatch, SetStateAction } from 'react'
 import { useRouter } from 'next/navigation'
 import { useMutation, useQueryClient } from 'react-query'
-import { useAlien } from '@/providers'
+import { useAuthorization } from '@/providers'
 import { IDeleteCommentRequest } from '@/types'
 import { deleteComment } from '@/api'
 import Dropdown from '@/components/dropdown'
@@ -15,7 +15,7 @@ interface Props {
 }
 
 export default function CommentOption({ planetId, messageId, commentId, isAuthor, modifyState }: Props) {
-    const { alien } = useAlien()
+    const auth = useAuthorization()
     const queryClient = useQueryClient()
     const router = useRouter()
     const mutation = useMutation({
@@ -40,7 +40,7 @@ export default function CommentOption({ planetId, messageId, commentId, isAuthor
                 commentId: commentId,
             },
             secret: {
-                token: alien.jwt,
+                token: auth.jwt,
             },
         }
         mutation.mutate(request)

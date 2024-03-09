@@ -2,7 +2,7 @@ import { QueryFunctionContext } from 'react-query'
 
 import { SERVER_URL } from '@/config'
 import {
-    IAlien,
+    IAuthorization,
     IPostCommentRequest,
     IPostCommentLikeRequest,
     IPostCommentLikeResponse,
@@ -11,13 +11,15 @@ import {
     IPutCommentRequest,
 } from '@/types'
 
-export async function getComments({ queryKey }: QueryFunctionContext<[string, string, string, object, IAlien]>): Promise<IGetCommentListResponse> {
-    const [, planetId, messageId, query, alien] = queryKey
+export async function getComments({
+    queryKey,
+}: QueryFunctionContext<[string, string, string, object, IAuthorization]>): Promise<IGetCommentListResponse> {
+    const [, planetId, messageId, query, auth] = queryKey
     const searchParams = new URLSearchParams({ ...query })
     const res = await fetch(`${SERVER_URL}/v1/planets/${planetId}/messages/${messageId}/comments?${searchParams}`, {
         method: 'GET',
         headers: {
-            Authorization: `Bearer ${alien.jwt}`,
+            Authorization: `Bearer ${auth.jwt}`,
         },
     })
     if (!res.ok) {

@@ -5,7 +5,7 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import { SubmitHandler } from 'react-hook-form'
 import { putMessage } from '@/api'
 import { IMessageFormInputs, IPutMessageRequest } from '@/types'
-import { useAlien } from '@/providers'
+import { useAuthorization } from '@/providers'
 import MessageForm from '@/components/messages/messageForm'
 
 export default function Create() {
@@ -22,7 +22,7 @@ export default function Create() {
         throw new Error('400 Bad Request')
     }
 
-    const { alien } = useAlien()
+    const auth = useAuthorization()
     const router = useRouter()
     const queryClient = useQueryClient()
     const mutation = useMutation({
@@ -48,7 +48,7 @@ export default function Create() {
                 messageId: messageId,
             },
             secret: {
-                token: alien.jwt,
+                token: auth.jwt,
             },
         }
         mutation.mutate(request)

@@ -1,5 +1,5 @@
 import { SERVER_URL } from '@/config'
-import { IAlien, IGetAlienDetailResponse, ILoginRequest, ILoginResponse, IUpdateNicknameRequest } from '@/types'
+import { IAuthorization, IGetAlienDetailResponse, ILoginRequest, ILoginResponse, IUpdateNicknameRequest } from '@/types'
 import { QueryFunctionContext } from 'react-query'
 
 export async function postLogin(request: ILoginRequest): Promise<ILoginResponse> {
@@ -30,11 +30,11 @@ export async function updateNickname(request: IUpdateNicknameRequest): Promise<v
     }
 }
 
-export async function getAlienDetail({ queryKey }: QueryFunctionContext<[string, IAlien]>): Promise<IGetAlienDetailResponse> {
-    const [, alien] = queryKey
+export async function getAlienDetail({ queryKey }: QueryFunctionContext<[string, IAuthorization]>): Promise<IGetAlienDetailResponse> {
+    const [, auth] = queryKey
     const res = await fetch(`${SERVER_URL}/v1/aliens/detail`, {
         method: 'GET',
-        headers: { Authorization: `Bearer ${alien.jwt}` },
+        headers: { Authorization: `Bearer ${auth.jwt}` },
     })
     if (!res.ok) {
         throw new Error('network response was not ok')

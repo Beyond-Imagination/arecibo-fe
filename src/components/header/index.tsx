@@ -1,9 +1,9 @@
 import Image from 'next/image'
-import { useAlien } from '@/providers'
 import Link from 'next/link'
+import { useAlien } from '@/hooks'
 
 export default function Header() {
-    const { alien } = useAlien()
+    const alien = useAlien()
     return (
         <div>
             <div className="flex w-full px-12 py-8 justify-between">

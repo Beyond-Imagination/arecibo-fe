@@ -5,7 +5,7 @@ import { useSearchParams } from 'next/navigation'
 
 import { getMessage } from '@/api'
 import { IGetMessageResponse } from '@/types'
-import { useAlien } from '@/providers'
+import { useAuthorization } from '@/providers'
 import Message from '@/components/messages/message'
 import CommentAdd from '@/components/comments/commentAdd'
 import CommentList from '@/components/comments/commentList'
@@ -20,10 +20,10 @@ export default function Page() {
         throw new Error('400 Bad Request')
     }
 
-    const { alien } = useAlien()
+    const auth = useAuthorization()
     const data =
-        useQuery(['message', planetId, messageId, alien], getMessage, {
-            enabled: !!alien,
+        useQuery(['message', planetId, messageId, auth], getMessage, {
+            enabled: !!auth,
             refetchOnWindowFocus: false,
             suspense: true,
         })?.data || ({} as IGetMessageResponse)

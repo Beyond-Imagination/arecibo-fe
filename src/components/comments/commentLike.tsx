@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from 'react-query'
 import React, { useState } from 'react'
 
 import { Like, UnLike } from '@/icon'
-import { useAlien } from '@/providers'
+import { useAuthorization } from '@/providers'
 import { IPostCommentLikeRequest } from '@/types'
 import { postCommentLike } from '@/api/comment'
 
@@ -17,7 +17,7 @@ interface Props {
 }
 
 export default function CommentLikeButton({ id, count, isLiked }: Props) {
-    const { alien } = useAlien()
+    const auth = useAuthorization()
     const queryClient = useQueryClient()
 
     const [isLikedState, setIsLikedState] = useState(isLiked)
@@ -52,7 +52,7 @@ export default function CommentLikeButton({ id, count, isLiked }: Props) {
                 commentId: id.commentId,
             },
             secret: {
-                token: alien.jwt,
+                token: auth.jwt,
             },
         }
         mutation.mutate(request)

@@ -7,7 +7,7 @@ import { useSearchParams } from 'next/navigation'
 import { getMessages } from '@/api'
 import { IGetMessageListResponse } from '@/types'
 import MessageList from '@/components/messages/messageList'
-import { useAlien } from '@/providers'
+import { useAuthorization } from '@/providers'
 
 export default function Page() {
     const searchParams = useSearchParams()
@@ -25,10 +25,10 @@ export default function Page() {
         sort: searchParams.get('sort') || 'latest',
     }
 
-    const { alien } = useAlien()
+    const auth = useAuthorization()
     const data =
-        useQuery(['messageList', planetId, query, alien], getMessages, {
-            enabled: !!alien && !!planetId,
+        useQuery(['messageList', planetId, query, auth], getMessages, {
+            enabled: !!auth && !!planetId,
             refetchOnWindowFocus: false,
             suspense: true,
         })?.data || ({} as IGetMessageListResponse)

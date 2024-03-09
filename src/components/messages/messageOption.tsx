@@ -2,7 +2,7 @@ import React from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useMutation, useQueryClient } from 'react-query'
-import { useAlien } from '@/providers'
+import { useAuthorization } from '@/providers'
 import { deleteMessage } from '@/api'
 import { IDeleteMessageRequest, IMessage } from '@/types'
 import Dropdown from '@/components/dropdown'
@@ -14,7 +14,7 @@ interface Props {
 }
 
 export default function MessageOption({ planetId, title, message }: Props) {
-    const { alien } = useAlien()
+    const auth = useAuthorization()
     const queryClient = useQueryClient()
     const router = useRouter()
     const mutation = useMutation({
@@ -45,7 +45,7 @@ export default function MessageOption({ planetId, title, message }: Props) {
                 messageId: message._id,
             },
             secret: {
-                token: alien.jwt,
+                token: auth.jwt,
             },
         }
         mutation.mutate(request)

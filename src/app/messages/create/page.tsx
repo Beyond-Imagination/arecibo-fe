@@ -5,7 +5,7 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import { SubmitHandler } from 'react-hook-form'
 import { postMessage } from '@/api'
 import { IMessageFormInputs, IPostMessageRequest } from '@/types'
-import { useAlien } from '@/providers'
+import { useAuthorization } from '@/providers'
 import MessageForm from '@/components/messages/messageForm'
 
 export default function Create() {
@@ -16,8 +16,7 @@ export default function Create() {
     if (planetId === '' || title === '') {
         throw new Error('400 Bad Request')
     }
-
-    const { alien } = useAlien()
+    const auth = useAuthorization()
     const router = useRouter()
     const queryClient = useQueryClient()
     const mutation = useMutation({
@@ -39,7 +38,7 @@ export default function Create() {
                 planetId: planetId,
             },
             secret: {
-                token: alien.jwt,
+                token: auth.jwt,
             },
         }
         mutation.mutate(request)

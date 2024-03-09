@@ -3,7 +3,7 @@ import { SubmitHandler, useForm } from 'react-hook-form'
 import { useRouter } from 'next/navigation'
 import { IPostCommentRequest } from '@/types/comment'
 import { postComment } from '@/api/comment'
-import { useAlien } from '@/providers'
+import { useAuthorization } from '@/providers'
 import FormError from '@/components/formError'
 import { CommentFormLoading } from '@/components/loading'
 
@@ -29,7 +29,7 @@ export default function CommentAdd({ data, isShow }: Props) {
     } = useForm<Inputs>()
     const errorMessage: string | undefined = errors?.text?.message
 
-    const { alien } = useAlien()
+    const auth = useAuthorization()
     const router = useRouter()
     const queryClient = useQueryClient()
     const mutation = useMutation({
@@ -57,7 +57,7 @@ export default function CommentAdd({ data, isShow }: Props) {
                 parentCommentId: data.parentCommentId,
             },
             secret: {
-                token: alien.jwt,
+                token: auth.jwt,
             },
         }
         resetField('text')
