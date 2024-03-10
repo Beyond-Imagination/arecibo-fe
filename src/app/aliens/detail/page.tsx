@@ -9,7 +9,11 @@ import { useAlien } from '@/hooks'
 export default function Page() {
     const alien = useAlien()
     const updateTime = useMemo(() => {
-        return dayjs(alien.lastNicknameUpdateTime).add(1, 'h').toDate()
+        if (alien.lastNicknameUpdateTime) {
+            return dayjs(alien.lastNicknameUpdateTime).add(1, 'h').toDate()
+        } else {
+            return new Date()
+        }
     }, [alien])
     const [isNicknameUpdateAllow, setIsNicknameUpdateAllow] = useState(updateTime.getTime() <= Date.now())
     const linkHandler = (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
