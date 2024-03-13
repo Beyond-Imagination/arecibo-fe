@@ -37,6 +37,7 @@ export default function Page() {
         },
         onSuccess: async () => {
             await queryClient.invalidateQueries(['alienDetail', auth])
+            await queryClient.refetchQueries(['alienDetail', auth])
             router.push('/aliens/detail')
         },
     })
