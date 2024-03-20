@@ -36,8 +36,7 @@ export default function Page() {
             return updateNickname(request)
         },
         onSuccess: async () => {
-            await queryClient.invalidateQueries(['alienDetail', auth])
-            await queryClient.refetchQueries(['alienDetail', auth])
+            await queryClient.invalidateQueries('alienDetail')
             router.push('/aliens/detail')
         },
     })
