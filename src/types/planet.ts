@@ -6,6 +6,10 @@ export interface IPlanet {
     updatedAt: Date
 }
 
-export interface IGetPlanetsResponse {
+export interface IGetSubscribedPlanetsResponse {
+    planets: IPlanet[]
+}
+
+export interface IGetSubscribablePlanetsResponse {
     planets: IPlanet[]
 }

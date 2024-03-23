@@ -1,5 +1,12 @@
 import { SERVER_URL } from '@/config'
-import { IAuthorization, IGetAlienDetailResponse, ILoginRequest, ILoginResponse, IUpdateNicknameRequest } from '@/types'
+import {
+    IAuthorization,
+    IGetAlienDetailResponse,
+    IGetSubscribedPlanetsResponse,
+    ILoginRequest,
+    ILoginResponse,
+    IUpdateNicknameRequest,
+} from '@/types'
 import { QueryFunctionContext } from 'react-query'
 
 export async function postLogin(request: ILoginRequest): Promise<ILoginResponse> {
@@ -36,6 +43,21 @@ export async function getAlienDetail({ queryKey }: QueryFunctionContext<[string,
         method: 'GET',
         headers: { Authorization: `Bearer ${auth.jwt}` },
     })
+    if (!res.ok) {
+        throw new Error('network response was not ok')
+    }
+    return res.json()
+}
+
+export async function getSubscribedPlanets({ queryKey }: QueryFunctionContext<[string, IAuthorization]>): Promise<IGetSubscribedPlanetsResponse> {
+    const [, auth] = queryKey
+    const res = await fetch(`${SERVER_URL}/v1/aliens/planets/subscribe`, {
+        method: 'GET',
+        headers: {
+            Authorization: `Bearer ${auth.jwt}`,
+        },
+    })
+
     if (!res.ok) {
         throw new Error('network response was not ok')
     }

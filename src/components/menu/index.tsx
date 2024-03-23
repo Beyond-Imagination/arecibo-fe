@@ -3,7 +3,7 @@ import { useQuery } from 'react-query'
 import { useRouter, usePathname } from 'next/navigation'
 
 import { useAuthorization } from '@/providers'
-import { getPlanets } from '@/api'
+import { getSubscribedPlanets } from '@/api'
 import PlanetLink from '@/components/menu/planetLink'
 
 export default function Menu() {
@@ -11,7 +11,7 @@ export default function Menu() {
     const router = useRouter()
     const pathName = usePathname()
 
-    const { data } = useQuery(['planets', auth], getPlanets, {
+    const { data } = useQuery(['planets', auth], getSubscribedPlanets, {
         enabled: !!auth,
         refetchOnWindowFocus: false,
         suspense: true,

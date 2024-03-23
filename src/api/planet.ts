@@ -1,9 +1,9 @@
 import { QueryFunctionContext } from 'react-query'
 
 import { SERVER_URL } from '@/config'
-import { IAuthorization, IGetPlanetsResponse } from '@/types'
+import { IAuthorization, IGetSubscribablePlanetsResponse } from '@/types'
 
-export async function getPlanets({ queryKey }: QueryFunctionContext<[string, IAuthorization]>): Promise<IGetPlanetsResponse> {
+export async function getSubscribablePlanets({ queryKey }: QueryFunctionContext<[string, IAuthorization]>): Promise<IGetSubscribablePlanetsResponse> {
     const [, auth] = queryKey
     const res = await fetch(`${SERVER_URL}/v1/planets`, {
         method: 'GET',
