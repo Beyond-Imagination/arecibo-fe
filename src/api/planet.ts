@@ -1,4 +1,4 @@
-import { QueryFunctionContext } from 'react-query'
+import { QueryFunctionContext } from '@tanstack/react-query'
 
 import { SERVER_URL } from '@/config'
 import { IAuthorization, IGetSubscribablePlanetsResponse } from '@/types'

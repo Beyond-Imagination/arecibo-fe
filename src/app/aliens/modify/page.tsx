@@ -1,7 +1,7 @@
 'use client'
 
 import { SubmitHandler, useForm } from 'react-hook-form'
-import { useMutation, useQueryClient } from 'react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useAuthorization } from '@/providers'
 import { IUpdateNicknameRequest } from '@/types'
@@ -36,7 +36,7 @@ export default function Page() {
             return updateNickname(request)
         },
         onSuccess: async () => {
-            await queryClient.invalidateQueries('alienDetail')
+            await queryClient.invalidateQueries({ queryKey: ['alienDetail', auth] })
             router.push('/aliens/detail')
         },
     })
@@ -73,7 +73,7 @@ export default function Page() {
                             defaultValue={nickname}
                             className="input-item"
                             {...register('nickname', { required: 'nickname is required' })}
-                            readOnly={isSubmitting || mutation.isLoading}
+                            readOnly={isSubmitting || mutation.isPending}
                         />
                         {/*TODO: display theLastNicknameUpdatedTime*/}
                         <div className="note">
@@ -85,7 +85,7 @@ export default function Page() {
                         <button
                             type="submit"
                             className="rounded-lg font-medium text-sm px-3 py-2.5 my-2 me-2 text-white bg-blue-700"
-                            disabled={isSubmitting || mutation.isLoading}
+                            disabled={isSubmitting || mutation.isPending}
                         >
                             Update profile
                         </button>

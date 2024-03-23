@@ -1,3 +1,5 @@
+import { QueryFunctionContext } from '@tanstack/react-query'
+
 import { SERVER_URL } from '@/config'
 import {
     IAuthorization,
@@ -7,7 +9,6 @@ import {
     ILoginResponse,
     IUpdateNicknameRequest,
 } from '@/types'
-import { QueryFunctionContext } from 'react-query'
 
 export async function postLogin(request: ILoginRequest): Promise<ILoginResponse> {
     const res = await fetch(`${SERVER_URL}/v1/aliens/login/space`, {

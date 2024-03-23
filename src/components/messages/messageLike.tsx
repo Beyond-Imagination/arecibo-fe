@@ -1,4 +1,4 @@
-import { useMutation, useQueryClient } from 'react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import React, { useState } from 'react'
 
 import { Like, UnLike } from '@/icon'
@@ -59,6 +59,7 @@ export default function MessageLikeButton({ planetId, messageId, count, isLiked 
                 isLikedState ? 'text-white bg-[#fe6d70]' : 'bg-[#EFEFEF] dark:bg-[#818284]'
             }`}
             onClick={onClick}
+            disabled={mutation.isPending}
         >
             <div className="flex-1 w-5 m-2">{isLikedState ? <UnLike /> : <Like />}</div>
             <p className="flex-none m-2">{countState}</p>

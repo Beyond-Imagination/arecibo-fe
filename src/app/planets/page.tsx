@@ -1,11 +1,10 @@
 'use client'
 
 import Link from 'next/link'
-import { useQuery } from 'react-query'
+import { useSuspenseQuery } from '@tanstack/react-query'
 import { useSearchParams } from 'next/navigation'
 
 import { getMessages } from '@/api'
-import { IGetMessageListResponse } from '@/types'
 import MessageList from '@/components/messages/messageList'
 import { useAuthorization } from '@/providers'
 
@@ -26,12 +25,11 @@ export default function Page() {
     }
 
     const auth = useAuthorization()
-    const data =
-        useQuery(['messageList', planetId, query, auth], getMessages, {
-            enabled: !!auth && !!planetId,
-            refetchOnWindowFocus: false,
-            suspense: true,
-        })?.data || ({} as IGetMessageListResponse)
+    const { data: messageList } = useSuspenseQuery({
+        queryKey: ['messageList', planetId, query, auth],
+        queryFn: getMessages,
+        refetchOnWindowFocus: false,
+    })
 
     // TODO: add sort button
     return (
@@ -45,7 +43,7 @@ export default function Page() {
                     <div className="my-2">Create a Post</div>
                 </Link>
             </div>
-            <MessageList key={planetId} data={data} planetId={planetId} title={title} />
+            <MessageList key={planetId} data={messageList} planetId={planetId} title={title} />
         </div>
     )
 }

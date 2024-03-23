@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { useQuery } from 'react-query'
+import { useSuspenseQuery } from '@tanstack/react-query'
 import { useRouter, usePathname } from 'next/navigation'
 
 import { useAuthorization } from '@/providers'
@@ -11,11 +11,7 @@ export default function Menu() {
     const router = useRouter()
     const pathName = usePathname()
 
-    const { data } = useQuery(['planets', auth], getSubscribedPlanets, {
-        enabled: !!auth,
-        refetchOnWindowFocus: false,
-        suspense: true,
-    })
+    const { data } = useSuspenseQuery({ queryKey: ['planets', auth], queryFn: getSubscribedPlanets, refetchOnWindowFocus: false })
 
     useEffect(() => {
         // 최초 진입시 path 를 organization planet 으로 변경

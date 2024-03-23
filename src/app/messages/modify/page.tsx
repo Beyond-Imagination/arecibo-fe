@@ -1,6 +1,6 @@
 'use client'
 
-import { useMutation, useQueryClient } from 'react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { SubmitHandler } from 'react-hook-form'
 import { putMessage } from '@/api'
@@ -31,8 +31,8 @@ export default function Create() {
         },
         onSuccess: async () => {
             await Promise.all([
-                queryClient.invalidateQueries(['messageList', planetId]),
-                queryClient.invalidateQueries(['message', planetId, messageId]),
+                queryClient.invalidateQueries({ queryKey: ['messageList', planetId] }),
+                queryClient.invalidateQueries({ queryKey: ['message', planetId, messageId] }),
             ])
             router.replace(`/messages/detail?planetId=${planetId}&messageId=${messageId}&title=${title}`)
         },

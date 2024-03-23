@@ -1,6 +1,7 @@
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { useRouter } from 'next/navigation'
-import { useMutation, useQueryClient } from 'react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+
 import { IPutCommentRequest } from '@/types'
 import { useAuthorization } from '@/providers'
 import { modifyComment } from '@/api'
@@ -36,7 +37,7 @@ export default function CommentModify({ planetId, messageId, commentId, text, mo
             return modifyComment(request)
         },
         onSuccess: async () => {
-            await queryClient.invalidateQueries(['commentList', planetId, messageId])
+            await queryClient.invalidateQueries({ queryKey: ['commentList', planetId, messageId] })
             modifyState(false)
             router.forward()
         },
@@ -61,7 +62,7 @@ export default function CommentModify({ planetId, messageId, commentId, text, mo
     return (
         <div className="block w-full p-2 my rounded-lg">
             <form onSubmit={handleSubmit(onSubmit)}>
-                {mutation.isLoading ? (
+                {mutation.isPending ? (
                     <CommentFormLoading />
                 ) : (
                     <input
@@ -75,7 +76,7 @@ export default function CommentModify({ planetId, messageId, commentId, text, mo
                 <div className="flex flex-row justify-end">
                     <button
                         type="submit"
-                        disabled={isSubmitting || mutation.isLoading}
+                        disabled={isSubmitting || mutation.isPending}
                         className="rounded-lg border text-base font-medium py-1 px-6 my-1 text-[#FEFEFE] bg-[#A5A5A5] border-[#868686]"
                     >
                         Comment

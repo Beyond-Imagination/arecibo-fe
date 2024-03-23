@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from 'react'
-import { useMutation } from 'react-query'
+import { useMutation } from '@tanstack/react-query'
 
 import { IAuthorization, ILoginRequest, ILoginResponse } from '@/types'
 import { postLogin } from '@/api'

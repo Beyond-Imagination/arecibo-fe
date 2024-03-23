@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 
 import { ICredential } from '@/types'
 import getCredential from '@/services/space/auth'
@@ -13,11 +13,12 @@ export function useCredential(): ICredential {
         }
     }, [typeof window])
 
-    const { data: credential } = useQuery<ICredential>(['accessToken'], () => getCredential(), {
+    const { data: credential } = useQuery<ICredential>({
+        queryKey: ['accessToken'],
+        queryFn: getCredential,
         enabled: client,
-        suspense: true,
-        cacheTime: 1000 * 60 * 9, // 9 minutes
         staleTime: 1000 * 60 * 9, // 9 minutes
+        gcTime: 1000 * 60 * 9, // 9 minutes
     })
 
     return credential!

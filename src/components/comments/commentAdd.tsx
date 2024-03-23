@@ -1,6 +1,7 @@
-import { useMutation, useQueryClient } from 'react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { useRouter } from 'next/navigation'
+
 import { IPostCommentRequest } from '@/types/comment'
 import { postComment } from '@/api/comment'
 import { useAuthorization } from '@/providers'
@@ -69,7 +70,7 @@ export default function CommentAdd({ data, isShow }: Props) {
             <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="rounded mx-2 bg-[#A5A5A5] dark:bg-[#ffffff26]">
                     <div className="p-2 text-white">Write your comment</div>
-                    {mutation.isLoading ? (
+                    {mutation.isPending ? (
                         <CommentFormLoading />
                     ) : (
                         <input
@@ -83,7 +84,7 @@ export default function CommentAdd({ data, isShow }: Props) {
                 <div className="flex flex-row justify-end p-2">
                     <button
                         type="submit"
-                        disabled={isSubmitting || mutation.isLoading}
+                        disabled={isSubmitting || mutation.isPending}
                         className="border rounded-lg text-base font-medium py-1 px-6 my-1 hover:border-[#afafbe] hover:dark:border-[#ffffff80]"
                     >
                         Comment

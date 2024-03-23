@@ -1,9 +1,8 @@
-import { useQuery } from 'react-query'
+import { useSuspenseQuery } from '@tanstack/react-query'
 import { useSearchParams } from 'next/navigation'
 
 import Comment from './comment'
 import { getComments } from '@/api'
-import { IGetCommentListResponse } from '@/types'
 import { useAuthorization } from '@/providers'
 import Paginate from '@/components/paginate'
 
@@ -22,12 +21,11 @@ export default function CommentList({ planetId, messageId }: Props) {
     }
 
     const auth = useAuthorization()
-    const data =
-        useQuery(['commentList', planetId, messageId, query, auth], getComments, {
-            enabled: !!auth && !!planetId && !!messageId,
-            refetchOnWindowFocus: false,
-            suspense: true,
-        })?.data || ({} as IGetCommentListResponse)
+    const { data } = useSuspenseQuery({
+        queryKey: ['commentList', planetId, messageId, query, auth],
+        queryFn: getComments,
+        refetchOnWindowFocus: false,
+    })
 
     return (
         <div className="flex flex-col border-t-2 mt-2 mx-2">

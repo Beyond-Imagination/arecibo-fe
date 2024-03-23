@@ -4,7 +4,7 @@ import { Inter } from 'next/font/google'
 import './globals.css'
 
 import React, { useState } from 'react'
-import { QueryClient, QueryClientProvider } from 'react-query'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
 import Header from '@/components/header'
 import Menu from '@/components/menu'
@@ -19,11 +19,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             new QueryClient({
                 defaultOptions: {
                     queries: {
-                        suspense: true,
                         staleTime: 1000 * 60 * 5, // 5 minutes
+                        gcTime: 1000 * 60 * 5, // 5 minutes
                     },
                     mutations: {
-                        useErrorBoundary: true,
+                        throwOnError: true,
                         retry: 1,
                     },
                 },

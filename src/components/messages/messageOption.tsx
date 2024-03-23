@@ -1,7 +1,8 @@
 import React from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { useMutation, useQueryClient } from 'react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+
 import { useAuthorization } from '@/providers'
 import { deleteMessage } from '@/api'
 import { IDeleteMessageRequest, IMessage } from '@/types'
@@ -22,7 +23,7 @@ export default function MessageOption({ planetId, title, message }: Props) {
             return deleteMessage(request)
         },
         onSuccess: async () => {
-            await queryClient.invalidateQueries(['messageList', planetId])
+            await queryClient.invalidateQueries({ queryKey: ['messageList', planetId] })
             router.push(`/planets?planetId=${planetId}&title=${title}`)
         },
     })

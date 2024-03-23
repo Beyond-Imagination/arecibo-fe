@@ -1,7 +1,8 @@
+import Link from 'next/link'
+
 import Message from '@/components/messages/message'
 import { IGetMessageListResponse } from '@/types'
 import Paginate from '@/components/paginate'
-import Link from 'next/link'
 
 type Props = {
     data: IGetMessageListResponse

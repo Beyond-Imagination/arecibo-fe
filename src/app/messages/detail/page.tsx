@@ -1,10 +1,9 @@
 'use client'
 
-import { useQuery } from 'react-query'
+import { useSuspenseQuery } from '@tanstack/react-query'
 import { useSearchParams } from 'next/navigation'
 
 import { getMessage } from '@/api'
-import { IGetMessageResponse } from '@/types'
 import { useAuthorization } from '@/providers'
 import Message from '@/components/messages/message'
 import CommentAdd from '@/components/comments/commentAdd'
@@ -21,12 +20,11 @@ export default function Page() {
     }
 
     const auth = useAuthorization()
-    const data =
-        useQuery(['message', planetId, messageId, auth], getMessage, {
-            enabled: !!auth,
-            refetchOnWindowFocus: false,
-            suspense: true,
-        })?.data || ({} as IGetMessageResponse)
+    const { data: message } = useSuspenseQuery({
+        queryKey: ['message', planetId, messageId, auth],
+        queryFn: getMessage,
+        refetchOnWindowFocus: false,
+    })
     const commentAddData = {
         planetId: planetId,
         messageId: messageId,
@@ -37,7 +35,7 @@ export default function Page() {
             <div className="flex flex-row justify-between w-full my-2">
                 <p className="text-4xl">{title}</p>
             </div>
-            <Message key={planetId} planetId={planetId} message={data} title={title} />
+            <Message key={planetId} planetId={planetId} message={message} title={title} />
             <div className="border-2 rounded-lg p-2 my-2">
                 <CommentAdd data={commentAddData} isShow={() => {}} />
                 <CommentList planetId={planetId} messageId={messageId} />

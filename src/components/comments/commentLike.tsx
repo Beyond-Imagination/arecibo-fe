@@ -1,4 +1,4 @@
-import { useMutation, useQueryClient } from 'react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import React, { useState } from 'react'
 
 import { Like, UnLike } from '@/icon'
@@ -60,7 +60,12 @@ export default function CommentLikeButton({ id, count, isLiked }: Props) {
 
     return (
         <div className="flex flex-row">
-            <button type="button" className={`flex-1 rounded-xl w-7 p-1 my-2 hover:bg-neutral-300 hover:dark:bg-[#ffffff26]`} onClick={onClick}>
+            <button
+                type="button"
+                className={`flex-1 rounded-xl w-7 p-1 my-2 hover:bg-neutral-300 hover:dark:bg-[#ffffff26]`}
+                onClick={onClick}
+                disabled={mutation.isPending}
+            >
                 {isLikedState ? <UnLike /> : <Like />}
             </button>
             <p className="flex-none my-2 py-1 ms-2">{countState}</p>

@@ -1,6 +1,7 @@
 import React, { Dispatch, SetStateAction } from 'react'
 import { useRouter } from 'next/navigation'
-import { useMutation, useQueryClient } from 'react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+
 import { useAuthorization } from '@/providers'
 import { IDeleteCommentRequest } from '@/types'
 import { deleteComment } from '@/api'
@@ -24,8 +25,8 @@ export default function CommentOption({ planetId, messageId, commentId, isAuthor
         },
         onSuccess: async () => {
             await Promise.all([
-                queryClient.invalidateQueries(['commentList', planetId]),
-                queryClient.invalidateQueries(['message', planetId, messageId]),
+                queryClient.invalidateQueries({ queryKey: ['commentList', planetId] }),
+                queryClient.invalidateQueries({ queryKey: ['message', planetId, messageId] }),
             ])
             router.forward()
         },

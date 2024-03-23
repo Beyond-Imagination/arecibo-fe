@@ -3,6 +3,7 @@
 import React, { useMemo, useState } from 'react'
 import Link from 'next/link'
 import dayjs from 'dayjs'
+
 import NicknameUpdateStatus from '@/components/aliens/nicknameUpdateStatus'
 import { useAlien } from '@/hooks'
 
