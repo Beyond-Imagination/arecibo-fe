@@ -1,5 +1,3 @@
-import { QueryFunctionContext } from '@tanstack/react-query'
-
 import { SERVER_URL } from '@/config'
 import {
     IAuthorization,
@@ -38,8 +36,7 @@ export async function updateNickname(request: IUpdateNicknameRequest): Promise<v
     }
 }
 
-export async function getAlienDetail({ queryKey }: QueryFunctionContext<[string, IAuthorization]>): Promise<IGetAlienDetailResponse> {
-    const [, auth] = queryKey
+export async function getAlienDetail(auth: IAuthorization): Promise<IGetAlienDetailResponse> {
     const res = await fetch(`${SERVER_URL}/v1/aliens/detail`, {
         method: 'GET',
         headers: { Authorization: `Bearer ${auth.jwt}` },
@@ -50,8 +47,7 @@ export async function getAlienDetail({ queryKey }: QueryFunctionContext<[string,
     return res.json()
 }
 
-export async function getSubscribedPlanets({ queryKey }: QueryFunctionContext<[string, IAuthorization]>): Promise<IGetSubscribedPlanetsResponse> {
-    const [, auth] = queryKey
+export async function getSubscribedPlanets(auth: IAuthorization): Promise<IGetSubscribedPlanetsResponse> {
     const res = await fetch(`${SERVER_URL}/v1/aliens/planets/subscribe`, {
         method: 'GET',
         headers: {

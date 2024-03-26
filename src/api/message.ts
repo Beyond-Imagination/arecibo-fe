@@ -1,5 +1,3 @@
-import { QueryFunctionContext } from '@tanstack/react-query'
-
 import { SERVER_URL } from '@/config'
 import {
     IAuthorization,
@@ -12,8 +10,7 @@ import {
     IPutMessageRequest,
 } from '@/types'
 
-export async function getMessage({ queryKey }: QueryFunctionContext<[string, string, string, IAuthorization]>): Promise<IGetMessageResponse> {
-    const [, planetId, messageId, auth] = queryKey
+export async function getMessage(planetId: string, messageId: string, auth: IAuthorization): Promise<IGetMessageResponse> {
     const res = await fetch(`${SERVER_URL}/v1/planets/${planetId}/messages/${messageId}`, {
         method: 'GET',
         headers: {
@@ -26,8 +23,7 @@ export async function getMessage({ queryKey }: QueryFunctionContext<[string, str
     return res.json()
 }
 
-export async function getMessages({ queryKey }: QueryFunctionContext<[string, string, object, IAuthorization]>): Promise<IGetMessageListResponse> {
-    const [, planetId, query, auth] = queryKey
+export async function getMessages(planetId: string, query: object, auth: IAuthorization): Promise<IGetMessageListResponse> {
     const searchParams = new URLSearchParams({ ...query })
     const res = await fetch(`${SERVER_URL}/v1/planets/${planetId}/messages?${searchParams}`, {
         method: 'GET',

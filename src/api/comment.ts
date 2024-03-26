@@ -1,5 +1,3 @@
-import { QueryFunctionContext } from '@tanstack/react-query'
-
 import { SERVER_URL } from '@/config'
 import {
     IAuthorization,
@@ -11,10 +9,7 @@ import {
     IPutCommentRequest,
 } from '@/types'
 
-export async function getComments({
-    queryKey,
-}: QueryFunctionContext<[string, string, string, object, IAuthorization]>): Promise<IGetCommentListResponse> {
-    const [, planetId, messageId, query, auth] = queryKey
+export async function getComments(planetId: string, messageId: string, query: object, auth: IAuthorization): Promise<IGetCommentListResponse> {
     const searchParams = new URLSearchParams({ ...query })
     const res = await fetch(`${SERVER_URL}/v1/planets/${planetId}/messages/${messageId}/comments?${searchParams}`, {
         method: 'GET',

@@ -27,7 +27,7 @@ export default function Page() {
     const auth = useAuthorization()
     const { data: messageList } = useSuspenseQuery({
         queryKey: ['messageList', planetId, query, auth],
-        queryFn: getMessages,
+        queryFn: () => getMessages(planetId, query, auth),
         refetchOnWindowFocus: false,
     })
 

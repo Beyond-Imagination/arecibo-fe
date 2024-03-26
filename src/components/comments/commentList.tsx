@@ -23,7 +23,7 @@ export default function CommentList({ planetId, messageId }: Props) {
     const auth = useAuthorization()
     const { data } = useSuspenseQuery({
         queryKey: ['commentList', planetId, messageId, query, auth],
-        queryFn: getComments,
+        queryFn: () => getComments(planetId, messageId, query, auth),
         refetchOnWindowFocus: false,
     })
 

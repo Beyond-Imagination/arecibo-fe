@@ -22,7 +22,7 @@ export default function Page() {
     const auth = useAuthorization()
     const { data: message } = useSuspenseQuery({
         queryKey: ['message', planetId, messageId, auth],
-        queryFn: getMessage,
+        queryFn: () => getMessage(planetId, messageId, auth),
         refetchOnWindowFocus: false,
     })
     const commentAddData = {

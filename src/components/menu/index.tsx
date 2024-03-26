@@ -11,7 +11,11 @@ export default function Menu() {
     const router = useRouter()
     const pathName = usePathname()
 
-    const { data } = useSuspenseQuery({ queryKey: ['planets', auth], queryFn: getSubscribedPlanets, refetchOnWindowFocus: false })
+    const { data } = useSuspenseQuery({
+        queryKey: ['planets', auth],
+        queryFn: () => getSubscribedPlanets(auth),
+        refetchOnWindowFocus: false,
+    })
 
     useEffect(() => {
         // 최초 진입시 path 를 organization planet 으로 변경
