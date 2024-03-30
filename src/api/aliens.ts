@@ -5,6 +5,8 @@ import {
     IGetSubscribedPlanetsResponse,
     ILoginRequest,
     ILoginResponse,
+    ISubscribePlanetRequest,
+    IUnsubscribePlanetRequest,
     IUpdateNicknameRequest,
 } from '@/types'
 
@@ -59,4 +61,28 @@ export async function getSubscribedPlanets(auth: IAuthorization): Promise<IGetSu
         throw new Error('network response was not ok')
     }
     return res.json()
+}
+
+export async function subscribePlanet(request: ISubscribePlanetRequest): Promise<void> {
+    const res = await fetch(`${SERVER_URL}/v1/aliens/planets/${request.uri.planetId}/subscribe`, {
+        method: 'POST',
+        headers: {
+            Authorization: `Bearer ${request.secret.token}`,
+        },
+    })
+    if (!res.ok) {
+        throw new Error('network response was not ok')
+    }
+}
+
+export async function unsubscribePlanet(request: IUnsubscribePlanetRequest): Promise<void> {
+    const res = await fetch(`${SERVER_URL}/v1/aliens/planets/${request.uri.planetId}/subscribe`, {
+        method: 'DELETE',
+        headers: {
+            Authorization: `Bearer ${request.secret.token}`,
+        },
+    })
+    if (!res.ok) {
+        throw new Error('network response was not ok')
+    }
 }
