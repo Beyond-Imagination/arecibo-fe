@@ -17,6 +17,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         onSuccess: (authorization: ILoginResponse) => {
             setAuthorization(authorization) // TODO: login 정보 timeout 구현
         },
+        gcTime: 1000 * 60 * 50, // 50 minute
     })
 
     const credential = useCredential()
