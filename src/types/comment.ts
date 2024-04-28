@@ -1,25 +1,53 @@
-export interface IComment {
+export interface ICommentBasis {
     _id: string
-    messageId: string
-    planetId: string
     text: string
-    author: {
-        organization: string
-        nickname: string
-    }
     likeCount: number
-    comments: IComment[]
-    parentCommentId: string
     isLiked: boolean
     isNested: boolean
-    isAuthor: boolean
     isBlind: boolean
     createdAt: Date
     updatedAt: Date
 }
 
+export interface IComment extends ICommentBasis {
+    planetId: string
+    messageId: string
+    parentCommentId: string
+    author: {
+        organization: string
+        nickname: string
+    }
+    comments: IComment[]
+    isAuthor: boolean
+}
+
+export interface ICommentWritten extends ICommentBasis {
+    planetId: {
+        _id: string
+        title: string
+    }
+    messageId: {
+        _id: string
+        title: string
+    }
+    parentCommentId: string
+    commentsCount: number
+}
+
 export interface IGetCommentListResponse {
     comments: IComment[]
+    page: {
+        totalDocs: number
+        totalPages: number
+        hasNextPage: boolean
+        hasPrevPage: boolean
+        page: number
+        limit: number
+    }
+}
+
+export interface IGetWrittenCommentResponse {
+    comments: ICommentWritten[]
     page: {
         totalDocs: number
         totalPages: number

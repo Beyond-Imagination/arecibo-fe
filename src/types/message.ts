@@ -1,18 +1,28 @@
-export interface IMessage {
+export interface IMessageBasis {
     _id: string
     title: string
     content: string
-    author: {
-        organization: string
-        nickname: string
-    }
     commentCount: number
     likeCount: number
     isLiked: boolean
     isBlind: boolean
-    isAuthor: boolean
     createdAt: Date
     updatedAt: Date
+}
+
+export interface IMessage extends IMessageBasis {
+    author: {
+        organization: string
+        nickname: string
+    }
+    isAuthor: boolean
+}
+
+export interface IMessageWritten extends IMessageBasis {
+    planetId: {
+        _id: string
+        title: string
+    }
 }
 
 export interface IMessageFormInputs {
@@ -24,6 +34,18 @@ export interface IGetMessageResponse extends IMessage {}
 
 export interface IGetMessageListResponse {
     messages: IMessage[]
+    page: {
+        totalDocs: number
+        totalPages: number
+        hasNextPage: boolean
+        hasPrevPage: boolean
+        page: number
+        limit: number
+    }
+}
+
+export interface IGetWrittenMessageResponse {
+    messages: IMessageWritten[]
     page: {
         totalDocs: number
         totalPages: number

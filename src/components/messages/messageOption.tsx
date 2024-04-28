@@ -5,16 +5,18 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 
 import { useAuthorization } from '@/providers'
 import { deleteMessage } from '@/api'
-import { IDeleteMessageRequest, IMessage } from '@/types'
+import { IDeleteMessageRequest, IMessage, IMessageWritten } from '@/types'
 import Dropdown from '@/components/dropdown'
+import { OptionIcon } from '@/icon'
 
 interface Props {
     planetId: string
     title: string
-    message: IMessage
+    message: IMessage | IMessageWritten
 }
 
 export default function MessageOption({ planetId, title, message }: Props) {
+    const isAuthor = 'isAuthor' in message ? message.isAuthor : true
     const auth = useAuthorization()
     const queryClient = useQueryClient()
     const router = useRouter()
@@ -23,7 +25,12 @@ export default function MessageOption({ planetId, title, message }: Props) {
             return deleteMessage(request)
         },
         onSuccess: async () => {
-            await queryClient.invalidateQueries({ queryKey: ['messageList', planetId] })
+            await Promise.all([
+                queryClient.invalidateQueries({ queryKey: ['messageList', planetId] }),
+                queryClient.invalidateQueries({ queryKey: ['messageListWritten', auth] }),
+                queryClient.invalidateQueries({ queryKey: ['commentList', planetId] }),
+                queryClient.invalidateQueries({ queryKey: ['commentListWritten', auth] }),
+            ])
             router.push(`/planets?planetId=${planetId}&title=${title}`)
         },
     })
@@ -53,20 +60,20 @@ export default function MessageOption({ planetId, title, message }: Props) {
     }
 
     return (
-        <Dropdown>
+        <Dropdown Icon={OptionIcon} xTranslate={'-translate-x-0'}>
             {/*TODO: make Link to message modify page*/}
-            {message.isAuthor && (
+            {isAuthor && (
                 <Link className="flex p-2" href={modifyURL}>
                     modify
                 </Link>
             )}
-            {message.isAuthor && (
+            {isAuthor && (
                 <button className="p-2" onClick={deleteToggle}>
                     delete
                 </button>
             )}
             {/*TODO: add report */}
-            {!message.isAuthor && <button className="p-2">No Action</button>}
+            {!isAuthor && <button className="p-2">No Action</button>}
         </Dropdown>
     )
 }

@@ -6,6 +6,7 @@ import { useAuthorization } from '@/providers'
 import { IDeleteCommentRequest } from '@/types'
 import { deleteComment } from '@/api'
 import Dropdown from '@/components/dropdown'
+import { OptionIcon } from '@/icon'
 
 interface Props {
     planetId: string
@@ -26,7 +27,9 @@ export default function CommentOption({ planetId, messageId, commentId, isAuthor
         onSuccess: async () => {
             await Promise.all([
                 queryClient.invalidateQueries({ queryKey: ['commentList', planetId] }),
+                queryClient.invalidateQueries({ queryKey: ['commentListWritten', auth] }),
                 queryClient.invalidateQueries({ queryKey: ['message', planetId, messageId] }),
+                queryClient.invalidateQueries({ queryKey: ['messageListWritten', auth] }),
             ])
             router.forward()
         },
@@ -53,7 +56,7 @@ export default function CommentOption({ planetId, messageId, commentId, isAuthor
     }
 
     return (
-        <Dropdown>
+        <Dropdown Icon={OptionIcon} xTranslate={'-translate-x-0'}>
             {isAuthor && (
                 <button className="p-2" onClick={modifyToggle}>
                     modify

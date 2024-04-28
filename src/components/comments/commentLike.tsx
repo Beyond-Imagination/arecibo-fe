@@ -40,7 +40,10 @@ export default function CommentLikeButton({ id, count, isLiked }: Props) {
                 updateState()
                 throw new Error(data.message)
             }
-            await queryClient.invalidateQueries({ queryKey: ['message', id.planetId, id.messageId] })
+            await Promise.all([
+                queryClient.invalidateQueries({ queryKey: ['message', id.planetId, id.messageId] }),
+                queryClient.invalidateQueries({ queryKey: ['commentListWritten', auth] }),
+            ])
         },
     })
 

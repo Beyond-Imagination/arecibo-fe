@@ -24,7 +24,10 @@ export default function Create() {
             return postMessage(body)
         },
         onSuccess: async () => {
-            await queryClient.invalidateQueries({ queryKey: ['messageList', planetId] })
+            await Promise.all([
+                queryClient.invalidateQueries({ queryKey: ['messageList', planetId] }),
+                queryClient.invalidateQueries({ queryKey: ['messageListWritten', auth] }),
+            ])
             router.push(`/planets?planetId=${planetId}&title=${title}`)
         },
     })

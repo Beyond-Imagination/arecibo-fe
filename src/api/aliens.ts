@@ -3,6 +3,8 @@ import {
     IAuthorization,
     IGetAlienDetailResponse,
     IGetSubscribedPlanetsResponse,
+    IGetWrittenCommentResponse,
+    IGetWrittenMessageResponse,
     ILoginRequest,
     ILoginResponse,
     ISubscribePlanetRequest,
@@ -85,4 +87,32 @@ export async function unsubscribePlanet(request: IUnsubscribePlanetRequest): Pro
     if (!res.ok) {
         throw new Error('network response was not ok')
     }
+}
+
+export async function getWrittenMessages(auth: IAuthorization, query: object): Promise<IGetWrittenMessageResponse | IGetWrittenCommentResponse> {
+    const searchParams = new URLSearchParams({ ...query })
+    const res = await fetch(`${SERVER_URL}/v1/aliens/messages?${searchParams}`, {
+        method: 'GET',
+        headers: {
+            Authorization: `Bearer ${auth.jwt}`,
+        },
+    })
+    if (!res.ok) {
+        throw new Error('network response was not ok')
+    }
+    return res.json()
+}
+
+export async function getWrittenComments(auth: IAuthorization, query: object): Promise<IGetWrittenCommentResponse> {
+    const searchParams = new URLSearchParams({ ...query })
+    const res = await fetch(`${SERVER_URL}/v1/aliens/comments?${searchParams}`, {
+        method: 'GET',
+        headers: {
+            Authorization: `Bearer ${auth.jwt}`,
+        },
+    })
+    if (!res.ok) {
+        throw new Error('network response was not ok')
+    }
+    return res.json()
 }

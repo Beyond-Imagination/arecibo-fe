@@ -37,7 +37,10 @@ export default function CommentModify({ planetId, messageId, commentId, text, mo
             return modifyComment(request)
         },
         onSuccess: async () => {
-            await queryClient.invalidateQueries({ queryKey: ['commentList', planetId, messageId] })
+            await Promise.all([
+                queryClient.invalidateQueries({ queryKey: ['commentList', planetId, messageId] }),
+                queryClient.invalidateQueries({ queryKey: ['commentListWritten', auth] }),
+            ])
             modifyState(false)
             router.forward()
         },
@@ -67,7 +70,7 @@ export default function CommentModify({ planetId, messageId, commentId, text, mo
                 ) : (
                     <input
                         id="modify/text"
-                        className="border rounded w-full h-16 p-2 border-[#CCCCCC] text-[#636363] dark:text-[#3E3E3E]"
+                        className="border rounded w-full h-16 p-2 bg-transparent"
                         defaultValue={text}
                         {...register('text', { required: 'text is required' })}
                     />

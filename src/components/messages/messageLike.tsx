@@ -36,7 +36,11 @@ export default function MessageLikeButton({ planetId, messageId, count, isLiked 
                 updateState()
                 throw new Error(data.message)
             }
-            await queryClient.invalidateQueries({ queryKey: ['messageList', planetId] })
+            await Promise.all([
+                queryClient.invalidateQueries({ queryKey: ['messageList', planetId] }),
+                queryClient.invalidateQueries({ queryKey: ['message', planetId, messageId] }),
+                queryClient.invalidateQueries({ queryKey: ['messageListWritten', auth] }),
+            ])
         },
     })
     const onClick = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {

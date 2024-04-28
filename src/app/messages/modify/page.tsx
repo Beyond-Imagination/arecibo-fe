@@ -33,6 +33,7 @@ export default function Create() {
             await Promise.all([
                 queryClient.invalidateQueries({ queryKey: ['messageList', planetId] }),
                 queryClient.invalidateQueries({ queryKey: ['message', planetId, messageId] }),
+                queryClient.invalidateQueries({ queryKey: ['messageListWritten', auth] }),
             ])
             router.replace(`/messages/detail?planetId=${planetId}&messageId=${messageId}&title=${title}`)
         },
