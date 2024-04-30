@@ -1,20 +1,19 @@
 import Link from 'next/link'
 
 import { IPlanet } from '@/types'
+import { planetStore } from '@/store'
 
 interface PlanetLinkProps {
     planet: IPlanet
 }
 
 export default function PlanetLink({ planet }: PlanetLinkProps) {
+    const { setPlanet } = planetStore()
+    const planetClick = () => {
+        setPlanet(planet)
+    }
     return (
-        <Link
-            href={{
-                pathname: '/planets',
-                query: { planetId: planet._id, title: planet.title },
-            }}
-            className="block text-gray-500 m-2 text-2xl"
-        >
+        <Link href={'/planets'} onClick={planetClick} className="block text-gray-500 m-2 text-2xl">
             {planet.title}
         </Link>
     )

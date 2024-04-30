@@ -7,13 +7,13 @@ import { useSearchParams } from 'next/navigation'
 import { getMessages } from '@/api'
 import MessageList from '@/components/messages/messageList'
 import { useAuthorization } from '@/providers'
+import { planetStore } from '@/store'
 
 export default function Page() {
     const searchParams = useSearchParams()
-    const planetId = searchParams.get('planetId') || ''
-    const title = searchParams.get('title') || ''
+    const { planet } = planetStore()
 
-    if (planetId === '' || title === '') {
+    if (planet._id === '' || planet.title === '') {
         throw new Error('400 Bad Request')
     }
 
@@ -26,8 +26,8 @@ export default function Page() {
 
     const auth = useAuthorization()
     const { data: messageList } = useSuspenseQuery({
-        queryKey: ['messageList', planetId, query, auth],
-        queryFn: () => getMessages(planetId, query, auth),
+        queryKey: ['messageList', planet._id, query, auth],
+        queryFn: () => getMessages(planet._id, query, auth),
         refetchOnWindowFocus: false,
     })
 
@@ -35,15 +35,15 @@ export default function Page() {
     return (
         <div className="flex flex-col justify-start w-full h-full p-12">
             <div className="flex flex-row justify-between w-full">
-                <p className="text-4xl">{title}</p>
+                <p className="text-4xl">{planet.title}</p>
                 <Link
-                    href={`/messages/create?planetId=${planetId}&title=${title}`}
+                    href={`/messages/create?planetId=${planet._id}&title=${planet.title}`}
                     className="rounded-md px-4 text-xs font-medium my-1 text-white bg-blue-700"
                 >
                     <div className="my-2">Create a Post</div>
                 </Link>
             </div>
-            <MessageList key={planetId} data={messageList} planetId={planetId} title={title} />
+            <MessageList key={planet._id} data={messageList} planetId={planet._id} title={planet.title} />
         </div>
     )
 }

@@ -7,11 +7,13 @@ import { useAuthorization } from '@/providers'
 import { getSubscribedPlanets } from '@/api'
 import PlanetLink from '@/components/menu/planetLink'
 import { Plus } from '@/icon'
+import { planetStore } from '@/store'
 
 export default function Menu() {
     const auth = useAuthorization()
     const router = useRouter()
     const pathName = usePathname()
+    const { planet, setPlanet } = planetStore()
 
     const { data } = useSuspenseQuery({
         queryKey: ['planets', auth],
@@ -22,8 +24,11 @@ export default function Menu() {
     useEffect(() => {
         // 최초 진입시 path 를 organization planet 으로 변경
         if (pathName === '/') {
-            const planet = data?.planets.find(element => element.category === 'organization')
-            if (planet) {
+            const organizationPlanet = data?.planets.find(element => element.category === 'organization')
+            if (organizationPlanet) {
+                if (planet._id === '') {
+                    setPlanet(organizationPlanet)
+                }
                 router.replace(`/planets?planetId=${planet._id}&title=${planet.title}`)
             }
         }

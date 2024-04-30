@@ -1,19 +1,18 @@
 'use client'
 
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import { SubmitHandler } from 'react-hook-form'
 import { postMessage } from '@/api'
 import { IMessageFormInputs, IPostMessageRequest } from '@/types'
 import { useAuthorization } from '@/providers'
 import MessageForm from '@/components/messages/messageForm'
+import { planetStore } from '@/store'
 
 export default function Create() {
-    const searchParams = useSearchParams()
-    const planetId = searchParams.get('planetId') || ''
-    const title = searchParams.get('title') || ''
+    const { planet } = planetStore()
 
-    if (planetId === '' || title === '') {
+    if (planet._id === '' || planet.title === '') {
         throw new Error('400 Bad Request')
     }
     const auth = useAuthorization()
@@ -25,10 +24,10 @@ export default function Create() {
         },
         onSuccess: async () => {
             await Promise.all([
-                queryClient.invalidateQueries({ queryKey: ['messageList', planetId] }),
+                queryClient.invalidateQueries({ queryKey: ['messageList', planet._id] }),
                 queryClient.invalidateQueries({ queryKey: ['messageListWritten', auth] }),
             ])
-            router.push(`/planets?planetId=${planetId}&title=${title}`)
+            router.push(`/planets?planetId=${planet._id}&title=${planet.title}`)
         },
     })
     const onSubmit: SubmitHandler<IMessageFormInputs> = (data: IMessageFormInputs) => {
@@ -38,7 +37,7 @@ export default function Create() {
                 content: data.content,
             },
             uri: {
-                planetId: planetId,
+                planetId: planet._id,
             },
             secret: {
                 token: auth.jwt,
@@ -49,7 +48,7 @@ export default function Create() {
 
     return (
         <div className="flex flex-col justify-start w-full min-h-screen p-12">
-            <p className="text-4xl">{title}</p>
+            <p className="text-4xl">{planet.title}</p>
             <MessageForm onSubmit={onSubmit} />
         </div>
     )
