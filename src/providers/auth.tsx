@@ -3,7 +3,7 @@ import { useMutation } from '@tanstack/react-query'
 
 import { IAuthorization, ILoginRequest, ILoginResponse } from '@/types'
 import { postLogin } from '@/api'
-import { useCredential } from '@/hooks'
+import { useCredential, useTheme } from '@/hooks'
 import { AuthLoading } from '@/components/loading'
 
 const authContext = createContext<IAuthorization | null>(null)
@@ -34,6 +34,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             mutate(request)
         }
     }, [credential])
+
+    useTheme()
 
     if (!credential || !authorization) {
         return <AuthLoading />
