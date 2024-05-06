@@ -1,21 +1,20 @@
 'use client'
 
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import { SubmitHandler } from 'react-hook-form'
 import { putMessage } from '@/api'
 import { IMessageFormInputs, IPutMessageRequest } from '@/types'
 import { useAuthorization } from '@/providers'
 import MessageForm from '@/components/messages/messageForm'
-import { planetStore } from '@/store'
+import { planetStore, messageStore } from '@/store'
 
 export default function Create() {
-    const searchParams = useSearchParams()
     const { planet } = planetStore()
-    const messageId = searchParams.get('messageId') || ''
+    const { message } = messageStore()
     const initValue: IMessageFormInputs = {
-        title: searchParams.get('messageTitle') || '',
-        content: searchParams.get('messageContent') || '',
+        title: message.title,
+        content: message.content,
     }
 
     if (planet._id === '' || planet.title === '') {
@@ -32,10 +31,10 @@ export default function Create() {
         onSuccess: async () => {
             await Promise.all([
                 queryClient.invalidateQueries({ queryKey: ['messageList', planet._id] }),
-                queryClient.invalidateQueries({ queryKey: ['message', planet._id, messageId] }),
+                queryClient.invalidateQueries({ queryKey: ['message', planet._id, message._id] }),
                 queryClient.invalidateQueries({ queryKey: ['messageListWritten', auth] }),
             ])
-            router.replace(`/messages/detail?planetId=${planet._id}&messageId=${messageId}&title=${planet.title}`)
+            router.replace(`/messages/detail?planetId=${planet._id}&messageId=${message._id}&title=${planet.title}`)
         },
     })
     const onSubmit: SubmitHandler<IMessageFormInputs> = (data: IMessageFormInputs) => {
@@ -46,7 +45,7 @@ export default function Create() {
             },
             uri: {
                 planetId: planet._id,
-                messageId: messageId,
+                messageId: message._id,
             },
             secret: {
                 token: auth.jwt,

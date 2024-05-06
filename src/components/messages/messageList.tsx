@@ -7,6 +7,8 @@ import { useAuthorization } from '@/providers'
 import { getMessages } from '@/api'
 import Message from '@/components/messages/message'
 import Paginate from '@/components/paginate'
+import { IMessage } from '@/types'
+import { messageStore } from '@/store'
 
 type Props = {
     title: string
@@ -29,12 +31,21 @@ export default function MessageList({ title, planetId }: Props) {
         queryFn: () => getMessages(planetId, query, auth),
         refetchOnWindowFocus: false,
     })
+
+    const { setMessage } = messageStore()
+    const messageClick = (message: IMessage) => {
+        setMessage(message)
+    }
     return (
         <div className="flex flex-col w-full mt-2 space-y-2">
             <div className="pb-3">
                 {data.messages &&
                     data.messages.map(message => (
-                        <Link href={`/messages/detail?planetId=${planetId}&messageId=${message._id}&title=${title}`} key={message._id}>
+                        <Link
+                            href={`/messages/detail?planetId=${planetId}&messageId=${message._id}&title=${title}`}
+                            key={message._id}
+                            onClick={() => messageClick(message)}
+                        >
                             <Message key={message._id} message={message} planetId={planetId} title={title} />
                         </Link>
                     ))}

@@ -8,6 +8,7 @@ import { deleteMessage } from '@/api'
 import { IDeleteMessageRequest, IMessage, IMessageWritten } from '@/types'
 import Dropdown from '@/components/dropdown'
 import { OptionIcon } from '@/icon'
+import { messageStore } from '@/store'
 
 interface Props {
     planetId: string
@@ -20,6 +21,7 @@ export default function MessageOption({ planetId, title, message }: Props) {
     const auth = useAuthorization()
     const queryClient = useQueryClient()
     const router = useRouter()
+    const { setMessage } = messageStore()
     const mutation = useMutation({
         mutationFn: (request: IDeleteMessageRequest) => {
             return deleteMessage(request)
@@ -34,17 +36,6 @@ export default function MessageOption({ planetId, title, message }: Props) {
             router.push(`/planets?planetId=${planetId}&title=${title}`)
         },
     })
-
-    const modifyURL = {
-        pathname: '/messages/modify',
-        query: {
-            planetId: planetId,
-            messageId: message._id,
-            title: title,
-            messageTitle: message.title,
-            messageContent: message.content,
-        },
-    }
     const deleteToggle = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         event.preventDefault()
         const request: IDeleteMessageRequest = {
@@ -58,12 +49,19 @@ export default function MessageOption({ planetId, title, message }: Props) {
         }
         mutation.mutate(request)
     }
+    const modifyClick = () => {
+        setMessage(message)
+    }
 
     return (
         <Dropdown Icon={OptionIcon} xTranslate={'-translate-x-0'}>
             {/*TODO: make Link to message modify page*/}
             {isAuthor && (
-                <Link className="flex p-2" href={modifyURL}>
+                <Link
+                    className="flex p-2"
+                    href={'/messages/modify?planetId=${planetId}&messageId=${message._id}&title=${title}'}
+                    onClick={modifyClick}
+                >
                     modify
                 </Link>
             )}
