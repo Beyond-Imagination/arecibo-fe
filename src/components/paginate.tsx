@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction } from 'react'
+import { Dispatch, SetStateAction, useMemo } from 'react'
 import { ChevronLeft, ChevronRight } from '@/icon'
 
 interface Props {
@@ -14,10 +14,14 @@ interface Props {
 }
 
 export default function Paginate({ page, setPage }: Props) {
-    const visiblePages = 3
-    const startPage = Math.max(1, Math.min(page.totalPages - visiblePages + 1, Math.max(1, page.page - Math.floor(visiblePages / 2))))
-    const endPage = Math.min(page.totalPages, startPage + visiblePages - 1)
-    const pageNumbers = Array.from({ length: endPage - startPage + 1 }, (_, i) => startPage + i)
+    const { startPage, endPage, pageNumbers } = useMemo(() => {
+        const visiblePages = 3
+        const startPage = Math.max(1, Math.min(page.totalPages - visiblePages + 1, Math.max(1, page.page - Math.floor(visiblePages / 2))))
+        const endPage = Math.min(page.totalPages, startPage + visiblePages - 1)
+        const pageNumbers = Array.from({ length: endPage - startPage + 1 }, (_, i) => startPage + i)
+
+        return { startPage, endPage, pageNumbers }
+    }, [page.page, page.totalPages])
 
     return (
         <div className="flex flex-row items-center justify-center mb-2">
