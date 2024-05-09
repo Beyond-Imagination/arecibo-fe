@@ -1,8 +1,9 @@
-import { useEffect } from 'react'
+import { useEffect, useMemo, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { Delta, Sources } from 'quill'
-import { UnprivilegedEditor } from 'react-quill'
+import ReactQuill, { UnprivilegedEditor } from 'react-quill'
+
 import TextEditor from '@/components/textEditor'
 import FormError from '@/components/formError'
 import { IMessageFormInputs } from '@/types'
@@ -13,16 +14,6 @@ interface Props {
 }
 
 // toolbar options
-const modules = {
-    toolbar: [
-        [{ header: [1, 2, 3, 4, false] }, { font: [] }],
-        [{ align: [] }, 'bold', 'italic', 'underline', 'strike'],
-        [{ color: [] }, { background: [] }],
-        [{ indent: '+1' }, { indent: '-1' }, { list: 'ordered' }, { list: 'bullet' }],
-        ['blockquote', 'code-block'],
-        ['link', 'image'],
-    ],
-}
 const formats = [
     'header',
     'font',
@@ -43,6 +34,7 @@ const formats = [
 ]
 
 export default function MessageForm({ onSubmit, initValue }: Props) {
+    const editorRef = useRef<ReactQuill>(null)
     const {
         register,
         handleSubmit,
@@ -63,6 +55,28 @@ export default function MessageForm({ onSubmit, initValue }: Props) {
             setValue('content', value)
         }
     }
+
+    const modules = useMemo(
+        () => ({
+            toolbar: {
+                container: [
+                    [{ header: [1, 2, 3, 4, false] }, { font: [] }],
+                    [{ align: [] }, 'bold', 'italic', 'underline', 'strike'],
+                    [{ color: [] }, { background: [] }],
+                    [{ indent: '+1' }, { indent: '-1' }, { list: 'ordered' }, { list: 'bullet' }],
+                    ['blockquote', 'code-block'],
+                    ['link', 'image'],
+                ],
+            },
+            magicUrl: {
+                urlRegularExpression: /(https?:\/\/[\S]+)|(www.[\S]+)|(tel:[\S]+)/g,
+                globalRegularExpression: /(https?:\/\/|www\.|tel:)[\S]+/g,
+                mailRegularExpression: null,
+            },
+        }),
+        [],
+    )
+
     return (
         <div className="border-2 block rounded-lg w-full p-6 mt-2">
             <form onSubmit={handleSubmit(onSubmit)}>
@@ -77,6 +91,7 @@ export default function MessageForm({ onSubmit, initValue }: Props) {
                 </div>
                 <div className="p-2">
                     <TextEditor
+                        forwardRef={editorRef}
                         theme="snow"
                         modules={modules}
                         formats={formats}

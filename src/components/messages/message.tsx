@@ -1,5 +1,6 @@
 import Image from 'next/image'
 import dayjs from 'dayjs'
+import React from 'react'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import updateLocale from 'dayjs/plugin/updateLocale'
 import 'react-quill/dist/quill.snow.css'
@@ -8,6 +9,7 @@ import { IMessage } from '@/types'
 import { CommentIcon } from '@/icon'
 import MessageLikeButton from './messageLike'
 import MessageOption from './messageOption'
+import { redirectRequest } from '@/services/space'
 
 interface Props {
     planetId: string
@@ -26,6 +28,13 @@ dayjs.updateLocale('en', {
 
 export default function Message({ planetId, title, message }: Props) {
     const timeDifference = dayjs(message.createdAt.toString()).fromNow()
+    const handleClick = async (event: React.MouseEvent<HTMLDivElement>) => {
+        const target = event.target as HTMLAnchorElement
+        if (target.tagName.toLowerCase() === 'a' && target.className === 'popupLink') {
+            event.preventDefault()
+            await redirectRequest(target.href)
+        }
+    }
 
     // TODO: change alien image
     return (
@@ -43,7 +52,7 @@ export default function Message({ planetId, title, message }: Props) {
             <div className="pb-1">
                 <h5 className="text-2xl font-bold leading-tight">{message.title}</h5>
                 <div className="ql-snow">
-                    <div className="ql-editor ql-view" dangerouslySetInnerHTML={{ __html: message.content }}></div>
+                    <div className="ql-editor ql-view" onClick={handleClick} dangerouslySetInnerHTML={{ __html: message.content }}></div>
                 </div>
             </div>
             <div className="flex flex-row justify-start pt-3">
