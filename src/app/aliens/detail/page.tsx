@@ -40,7 +40,7 @@ export default function Page() {
                     />
                 </div>
                 <Link
-                    href={`/aliens/modify?nickname=${alien.nickname}`}
+                    href={`/aliens/modify`}
                     className="rounded-lg font-medium text-sm px-3 py-3 my-3 me-2 text-white bg-blue-700"
                     onClick={linkHandler}
                 >

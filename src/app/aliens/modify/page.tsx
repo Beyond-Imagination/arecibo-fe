@@ -1,25 +1,22 @@
 'use client'
 
+import Link from 'next/link'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useRouter } from 'next/navigation'
+
+import FormError from '@/components/formError'
+import { useAlien } from '@/hooks'
 import { useAuthorization } from '@/providers'
 import { IUpdateNicknameRequest } from '@/types'
 import { updateNickname } from '@/api'
-import FormError from '@/components/formError'
-import Link from 'next/link'
 
 interface Inputs {
     nickname: string
 }
 
 export default function Page() {
-    const searchParams = useSearchParams()
-    const nickname = searchParams.get('nickname')
-
-    if (!nickname) {
-        throw new Error('400 Bad Request')
-    }
+    const alien = useAlien()
 
     const auth = useAuthorization()
     const router = useRouter()
@@ -41,7 +38,7 @@ export default function Page() {
         },
     })
     const onSubmit: SubmitHandler<Inputs> = (data: Inputs) => {
-        if (data.nickname === nickname) {
+        if (data.nickname === alien.nickname) {
             setError('nickname', {
                 type: 'reject',
                 message: 'You cannot change the nickname to the same one you are using.',
@@ -70,7 +67,7 @@ export default function Page() {
                         </label>
                         <input
                             id="modify/nickname"
-                            defaultValue={nickname}
+                            defaultValue={alien.nickname}
                             className="input-item"
                             {...register('nickname', { required: 'nickname is required' })}
                             readOnly={isSubmitting || mutation.isPending}
