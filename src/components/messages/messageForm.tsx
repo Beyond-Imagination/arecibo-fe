@@ -30,7 +30,6 @@ const formats = [
     'blockquote',
     'code-block',
     'link',
-    'image',
 ]
 
 export default function MessageForm({ onSubmit, initValue }: Props) {
@@ -65,7 +64,7 @@ export default function MessageForm({ onSubmit, initValue }: Props) {
                     [{ color: [] }, { background: [] }],
                     [{ indent: '+1' }, { indent: '-1' }, { list: 'ordered' }, { list: 'bullet' }],
                     ['blockquote', 'code-block'],
-                    ['link', 'image'],
+                    ['link'],
                 ],
             },
             magicUrl: {
