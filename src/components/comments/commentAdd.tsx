@@ -78,7 +78,10 @@ export default function CommentAdd({ data, isShow }: Props) {
                         <input
                             id="create/text"
                             className="border rounded-b w-full h-16 p-2 dark:bg-[#18191b]"
-                            {...register('text', { required: 'text is required' })}
+                            {...register('text', {
+                                required: 'text is required',
+                                validate: value => value.trim() !== '' || 'text is required',
+                            })}
                         />
                     )}
                 </div>
