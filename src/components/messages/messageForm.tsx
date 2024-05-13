@@ -43,7 +43,13 @@ export default function MessageForm({ onSubmit, initValue }: Props) {
     const errorMessage: string | undefined = errors?.title?.message || errors?.content?.message
 
     useEffect(() => {
-        register('content', { required: 'content is required' })
+        register('content', {
+            required: 'content is required',
+            validate: value => {
+                const planeText = value.replace(/<[^>]*>/g, '')
+                return planeText.trim() !== '' || 'content is required'
+            },
+        })
     }, [register, initValue])
     const router = useRouter()
 
@@ -85,7 +91,10 @@ export default function MessageForm({ onSubmit, initValue }: Props) {
                         className="border rounded w-full h-10 p-1 px-3 dark:bg-[#18191b]"
                         placeholder="Title"
                         defaultValue={initValue && initValue.title}
-                        {...register('title', { required: 'title is required' })}
+                        {...register('title', {
+                            required: 'title is required',
+                            validate: value => value.trim() !== '' || 'title is required',
+                        })}
                     />
                 </div>
                 <div className="p-2">
