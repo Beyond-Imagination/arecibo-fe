@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query'
 
 import { ICredential } from '@/types'
 import getCredential from '@/services/space/auth'
-import getTheme from '@/services/space/theme'
+import setTheme from '@/services/space/theme'
 
 export function useCredential(): ICredential {
     const [client, setClient] = useState<boolean>(false)
@@ -27,9 +27,6 @@ export function useCredential(): ICredential {
 
 export function useTheme(): undefined {
     useEffect(() => {
-        getTheme().then(theme => {
-            // 현재 space theme 획득.
-            console.log(theme)
-        })
+        setTheme()
     }, [])
 }

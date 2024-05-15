@@ -10,7 +10,7 @@ interface cssProperty {
 
 export interface ITheme {
     properties: cssProperty[]
-    idDark: boolean
+    isDark: boolean
 }
 
 export interface Team {
