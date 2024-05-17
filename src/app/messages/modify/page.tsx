@@ -57,7 +57,7 @@ export default function Create() {
     return (
         <div className="flex flex-col justify-start w-full min-h-screen p-12">
             <p className="text-4xl">{planet.title}</p>
-            <MessageForm onSubmit={onSubmit} initValue={initValue} />
+            <MessageForm onSubmit={onSubmit} initValue={initValue} isPending={mutation.isPending} />
         </div>
     )
 }

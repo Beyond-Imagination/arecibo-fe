@@ -11,6 +11,7 @@ import { IMessageFormInputs } from '@/types'
 interface Props {
     onSubmit: SubmitHandler<IMessageFormInputs>
     initValue?: IMessageFormInputs
+    isPending: boolean
 }
 
 // toolbar options
@@ -32,7 +33,7 @@ const formats = [
     'link',
 ]
 
-export default function MessageForm({ onSubmit, initValue }: Props) {
+export default function MessageForm({ onSubmit, initValue, isPending }: Props) {
     const editorRef = useRef<ReactQuill>(null)
     const {
         register,
@@ -120,7 +121,7 @@ export default function MessageForm({ onSubmit, initValue }: Props) {
                     </button>
                     <button
                         type="submit"
-                        disabled={isSubmitting}
+                        disabled={isSubmitting || isPending}
                         className="rounded-lg border text-base font-medium py-1 px-6 my-1 text-white bg-blue-700"
                     >
                         Post
