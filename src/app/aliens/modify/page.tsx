@@ -69,7 +69,14 @@ export default function Page() {
                             id="modify/nickname"
                             defaultValue={alien.nickname}
                             className="input-item"
-                            {...register('nickname', { required: 'nickname is required' })}
+                            {...register('nickname', {
+                                required: 'nickname is required',
+                                validate: value => value.trim() !== '' || 'nickname is required',
+                                maxLength: {
+                                    value: 10,
+                                    message: 'nickname cannot exceed 10 characters',
+                                },
+                            })}
                             readOnly={isSubmitting || mutation.isPending}
                         />
                         {/*TODO: display theLastNicknameUpdatedTime*/}
