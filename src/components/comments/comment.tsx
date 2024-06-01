@@ -43,7 +43,7 @@ export default function Comment({ comment }: Props) {
         setShowCommentAdd(!showCommentAdd)
     }
     return (
-        <div id={comment._id} className="block px-2 my-3">
+        <div id={comment._id} className="block ps-2 mt-3">
             <div className="flex flex-row justify-between">
                 <div className="flex flex-row items-center justify-start align-center">
                     <Image src="/images/alien.png" width={8} height={8} alt="Alien Image" className="w-8 h-8 rounded-full me-2" />
@@ -84,7 +84,9 @@ export default function Comment({ comment }: Props) {
                         {showCommentAdd && <CommentAdd key={comment._id} data={nestedCommentAddData} isShow={toggleCommentAdd} />}
                     </div>
                 )}
-                {comment.comments && comment.comments.map(nestedComment => <Comment key={nestedComment._id} comment={nestedComment} />)}
+                <div className="flex flex-col mt-1 ps-5">
+                    {comment.comments && comment.comments.map(nestedComment => <Comment key={nestedComment._id} comment={nestedComment} />)}
+                </div>
             </div>
         </div>
     )
