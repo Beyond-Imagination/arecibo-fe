@@ -19,6 +19,7 @@ export interface IComment extends ICommentBasis {
     }
     comments: IComment[]
     isAuthor: boolean
+    isDeleted: boolean
 }
 
 export interface ICommentWritten extends ICommentBasis {

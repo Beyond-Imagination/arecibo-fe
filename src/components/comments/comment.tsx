@@ -47,16 +47,18 @@ export default function Comment({ comment }: Props) {
             <div className="flex flex-row justify-between">
                 <div className="flex flex-row items-center justify-start align-center">
                     <Image src="/images/alien.png" width={8} height={8} alt="Alien Image" className="w-8 h-8 rounded-full me-2" />
-                    <h5 className="text-lg font-medium leading-tight">{comment.author.nickname}</h5>
-                    <div className="text-sm font-medium leading-tight px-2 text-[#818284]">{timeDifference}</div>
+                    <h5 className="text-lg font-medium leading-tight">{comment.isDeleted ? '(Deleted)' : comment.author.nickname}</h5>
+                    {!comment.isDeleted && <div className="text-sm font-medium leading-tight px-2 text-[#818284]">{timeDifference}</div>}
                 </div>
-                <CommentOption
-                    planetId={comment.planetId}
-                    messageId={comment.messageId}
-                    commentId={comment._id}
-                    isAuthor={comment.isAuthor}
-                    modifyState={setModifyComment}
-                />
+                {!comment.isDeleted && (
+                    <CommentOption
+                        planetId={comment.planetId}
+                        messageId={comment.messageId}
+                        commentId={comment._id}
+                        isAuthor={comment.isAuthor}
+                        modifyState={setModifyComment}
+                    />
+                )}
             </div>
             <div className="pt-1 border-l-2">
                 {modifyComment ? (
@@ -72,15 +74,17 @@ export default function Comment({ comment }: Props) {
                         <div className="ql-snow">
                             <div className="ql-editor" dangerouslySetInnerHTML={{ __html: comment.text }}></div>
                         </div>
-                        <div className="flex flex-row justify-start text-sm">
-                            <CommentLikeButton key={comment._id} id={commentLikeData} isLiked={comment.isLiked} count={comment.likeCount} />
-                            <button
-                                onClick={toggleCommentAdd}
-                                className="rounded-3xl text-xs m-2 px-2 hover:bg-neutral-300 hover:dark:bg-[#ffffff26]"
-                            >
-                                replies {comment.comments.length}
-                            </button>
-                        </div>
+                        {!comment.isDeleted && (
+                            <div className="flex flex-row justify-start text-sm">
+                                <CommentLikeButton key={comment._id} id={commentLikeData} isLiked={comment.isLiked} count={comment.likeCount} />
+                                <button
+                                    onClick={toggleCommentAdd}
+                                    className="rounded-3xl text-xs m-2 px-2 hover:bg-neutral-300 hover:dark:bg-[#ffffff26]"
+                                >
+                                    replies {comment.comments.length}
+                                </button>
+                            </div>
+                        )}
                         {showCommentAdd && <CommentAdd key={comment._id} data={nestedCommentAddData} isShow={toggleCommentAdd} />}
                     </div>
                 )}
